@@ -1,15 +1,15 @@
-# template-context
+# stock-flow-context
 
-The record for <!-- FILL: project name -->: requirements, business decisions and shared vocabulary. No code. Two sibling repos implement it:
+The record for stock-flow: requirements, business decisions and shared vocabulary. No code. Two sibling repos implement it:
 
 ```
 <workspace>/
-├── template-context/   ← this repo: what the system must do, and why
-├── template-api/       backend: implements the record, publishes the API contract
-└── template-web/       frontend: implements the record, consumes the contract
+├── stock-flow-context/   ← this repo: what the system must do, and why
+├── stock-flow-api/       backend: implements the record, publishes the API contract
+└── stock-flow-web/       frontend: implements the record, consumes the contract
 ```
 
-Keep the three clones side by side: the agent docs refer to the siblings as `../template-api` and `../template-web`.
+Keep the three clones side by side: the agent docs refer to the siblings as `../stock-flow-api` and `../stock-flow-web`.
 
 ## First-time setup
 
@@ -23,7 +23,7 @@ There is no need to run `/setup-matt-pocock-skills`: the files it would write (`
 
 ## How work flows
 
-Once per project: `grill the stack → stack tickets ✋ → stack PRs ✋ → plan the design in template-web ✋`. Then for every feature: `grill → record PR ✋ → /to-spec → /to-tickets ✋ → /dispatch → PRs ✋`. Step by step, with what you type and what the agent does: [docs/workflow.md](docs/workflow.md). In a session here, ask **"what's next?"** at any point.
+Once per project: `grill the stack → stack tickets ✋ → stack PRs ✋ → plan the design in stock-flow-web ✋`. Then for every feature: `grill → record PR ✋ → /to-spec → /to-tickets ✋ → /dispatch → PRs ✋`. Step by step, with what you type and what the agent does: [docs/workflow.md](docs/workflow.md). In a session here, ask **"what's next?"** at any point.
 
 ## Agent skills
 

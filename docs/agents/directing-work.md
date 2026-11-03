@@ -1,6 +1,6 @@
 # Directing work to the implementing repos
 
-Work leaves this repo as tickets in `template-api` and `template-web`. A ticket is the only channel: an agent there reads it cold, with none of this conversation. How a ticket is worded decides whether it builds the right thing.
+Work leaves this repo as tickets in `stock-flow-api` and `stock-flow-web`. A ticket is the only channel: an agent there reads it cold, with none of this conversation. How a ticket is worded decides whether it builds the right thing.
 
 ## Order
 
@@ -15,10 +15,10 @@ On top of the `to-tickets` issue template (What to build, Acceptance criteria, B
 
 ```md
 ## Record
-- Spec: <owner>/template-context#<n>
+- Spec: <owner>/stock-flow-context#<n>
 - Rules: docs/requirements/<module>.md R3, R4 (link to the file on main)
 - Decisions: ADR 0007, ADR 0012
-- Design: order-list, order-list-empty (web tickets: rows of *Screens* in template-web's docs/design.md)
+- Design: order-list, order-list-empty (web tickets: rows of *Screens* in stock-flow-web's docs/design.md)
 
 ## Why
 The reasoning behind each rule the implementer could otherwise "simplify" away.
@@ -37,7 +37,7 @@ The one kind of ticket that carries no record rules: the technical decisions of 
 
 ```md
 Kind: stack
-Blocked by: <owner>/template-api#<n>   (web ticket only: its client is generated from the api's contract)
+Blocked by: <owner>/stock-flow-api#<n>   (web ticket only: its client is generated from the api's contract)
 
 ## Decisions
 - <decision>: <choice>. <why it won>

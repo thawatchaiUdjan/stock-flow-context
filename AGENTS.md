@@ -2,15 +2,15 @@
 
 ## What this repo is
 
-The record for <!-- FILL: project name -->: what the system must do, for whom, and under what rules. **No code lives here.** Two repos implement what this repo states:
+The record for stock-flow: what the system must do, for whom, and under what rules. **No code lives here.** Two repos implement what this repo states:
 
 | Repo | Role | Local path | Remote (`owner/repo`) |
 | --- | --- | --- | --- |
-| `template-context` | **This repo.** Requirements, business decisions, vocabulary | `.` | <!-- FILL: owner/template-context --> |
-| `template-api` | Backend. Publishes the API contract | `../template-api` | <!-- FILL: owner/template-api --> |
-| `template-web` | Frontend. Consumes the API contract | `../template-web` | <!-- FILL: owner/template-web --> |
+| `stock-flow-context` | **This repo.** Requirements, business decisions, vocabulary | `.` | `thawatchaiUdjan/stock-flow-context` |
+| `stock-flow-api` | Backend. Publishes the API contract | `../stock-flow-api` | `thawatchaiUdjan/stock-flow-api` |
+| `stock-flow-web` | Frontend. Consumes the API contract | `../stock-flow-web` | `thawatchaiUdjan/stock-flow-web` |
 
-To read a sibling repo, start the session with `--add-dir ../template-api` (or `../template-web`). Read them; never edit them from here. The only things this repo runs in them are `scripts/update-all-skills.sh` and `scripts/dispatch.sh` (through `/dispatch`).
+To read a sibling repo, start the session with `--add-dir ../stock-flow-api` (or `../stock-flow-web`). Read them; never edit them from here. The only things this repo runs in them are `scripts/update-all-skills.sh` and `scripts/dispatch.sh` (through `/dispatch`).
 
 ## What belongs here
 
@@ -34,11 +34,11 @@ Link to the sibling repos' docs; never copy them. A copy drifts from its source.
 - **Never write a requirement from assumption.** A plausible invented rule is worse than a blank, because the next agent builds on it. Whatever you cannot confirm goes under that module's `## Open questions`.
 - **Finding facts is your job; decisions are the requirements owner's.** Look up what is discoverable (the design, the sibling repos, a standard) yourself, with the `research` skill when it needs sources. Put only decisions to the owner.
 - **The record leads.** A rule reaches an implementing repo only after its requirement or ADR is merged here. Directing that work: `docs/agents/directing-work.md`.
-- In prose, the person who decides requirements is the *requirements owner* (<!-- FILL: name and role, usually the PM -->). A dev may decide within what the owner leaves to devs, and takes the rest to the owner.
+- In prose, the person who decides requirements is the *requirements owner* (thawatchaiUdjan, project owner). A dev may decide within what the owner leaves to devs, and takes the rest to the owner.
 
 ## Guiding the user
 
-The steps, with what the user types at each: `docs/workflow.md`. End every step by naming the next one and its command. When asked "what's next?", work out where things stand from the record, the open issues in all three repos and `scripts/dispatch.sh --status`, then answer from that page. Until both implementing repos have merged their stack, and `template-web` its design direction (`docs/design.md`), the next step is *Before the first feature*.
+The steps, with what the user types at each: `docs/workflow.md`. End every step by naming the next one and its command. When asked "what's next?", work out where things stand from the record, the open issues in all three repos and `scripts/dispatch.sh --status`, then answer from that page. Until both implementing repos have merged their stack, and `stock-flow-web` its design direction (`docs/design.md`), the next step is *Before the first feature*.
 
 ## Where skill output goes
 
@@ -61,7 +61,7 @@ When asked to update or check the agent skills, update **all three repos**: run 
 
 ## Commits & pull requests
 
-The record, commits, pull requests and tickets are written in <!-- FILL: language, e.g. English -->, whatever language the session itself uses. Conventional commits (`docs(<module>): ...`). Work on a branch; `main` is the record. Open a pull request (a merge request on GitLab) for every change, and fill every section of its template.
+The record, commits, pull requests and tickets are written in English, whatever language the session itself uses. Conventional commits (`docs(<module>): ...`). Work on a branch; `main` is the record. Open a pull request (a merge request on GitLab) for every change, and fill every section of its template.
 
 ## Agent skills
 

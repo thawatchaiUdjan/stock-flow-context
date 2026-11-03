@@ -1,6 +1,6 @@
 ---
 name: dispatch
-description: "Hand approved tickets to fresh agents in template-api and template-web, then report what they did. Run after /to-tickets, and again whenever a merge unblocks more tickets."
+description: "Hand approved tickets to fresh agents in stock-flow-api and stock-flow-web, then report what they did. Run after /to-tickets, and again whenever a merge unblocks more tickets."
 disable-model-invocation: true
 ---
 

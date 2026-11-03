@@ -9,8 +9,8 @@ set -uo pipefail
 
 cd "$(dirname "$0")/../.."
 
-# FILL: rename if the repos are renamed. They must be cloned side by side.
-REPOS=(template-context template-api template-web)
+# Rename if the repos are renamed. They must be cloned side by side.
+REPOS=(stock-flow-context stock-flow-api stock-flow-web)
 
 failed=0
 for repo in "${REPOS[@]}"; do

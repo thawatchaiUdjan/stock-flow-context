@@ -16,11 +16,11 @@ CONTEXT="$(cd "$(dirname "$0")/.." && pwd -P)"
 WORKSPACE="$(dirname "$CONTEXT")"
 STATE="$CONTEXT/.dispatch"
 
-# FILL: the agent CLI the workers run: claude | codex
+# The agent CLI the workers run: claude | codex. Switching to codex is a one-word change here.
 AGENT="claude"
 
-# FILL: rename if the repos are renamed. They must be cloned next to this repo.
-REPOS=(template-api template-web)
+# Rename if the repos are renamed. They must be cloned next to this repo.
+REPOS=(stock-flow-api stock-flow-web)
 
 # Claude workers: what they may run unattended, on top of your own permission settings,
 # and what they may never run. The Edit rules set below cover the file tools only; a

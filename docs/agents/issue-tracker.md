@@ -1,6 +1,6 @@
 # Issue tracker: across three repos
 
-Specs live as issues in **this** repo. Tickets live as issues in the **implementing** repo (`template-api` or `template-web`). The code host is GitHub or GitLab; the commands for each are at the end.
+Specs live as issues in **this** repo. Tickets live as issues in the **implementing** repo (`stock-flow-api` or `stock-flow-web`). The code host is GitHub; the commands are at the end.
 
 The three remotes (`<owner>/<repo>`) are in the table in `AGENTS.md`. The CLI infers *this* repo from `git remote -v`; for a sibling, pass `-R <owner>/<repo>` explicitly. Inferring from the remote is wrong whenever you write to a sibling.
 
@@ -33,7 +33,7 @@ Read the issue (command below), adding `-R <owner>/<repo>` when the reference na
 
 - One ticket **per repo per slice**, both titled with the same slice name and both linking the spec issue.
 - The api ticket **blocks** the web ticket whenever the web needs the contract change the api ticket makes.
-- Record a cross-repo block as a `Blocked by: <owner>/template-api#<n>` line at the top of the web ticket. It works on every host and plan; a native blocking link may be added as well where the host supports one across repos. A ticket is unblocked when every listed blocker is closed.
+- Record a cross-repo block as a `Blocked by: <owner>/stock-flow-api#<n>` line at the top of the web ticket. It works on every host and plan; a native blocking link may be added as well where the host supports one across repos. A ticket is unblocked when every listed blocker is closed.
 - A slice that touches only one repo is one ticket, as upstream.
 - Skip `to-tickets`' sub-issue step: sub-issues don't span repos. Each ticket's *Spec* link replaces it.
 
@@ -42,8 +42,6 @@ Read the issue (command below), adding `-R <owner>/<repo>` when the reference na
 **PRs as a request surface: no.**
 
 ## Commands
-
-<!-- FILL: keep the section for your code host and delete the other. -->
 
 ### GitHub (`gh`)
 
@@ -56,14 +54,3 @@ Read the issue (command below), adding `-R <owner>/<repo>` when the reference na
 - **Pull requests**: `gh pr create`, `gh pr view`, `gh pr comment`. GitHub shares one number space across issues and PRs.
 - **Pipeline state of a pull request**: `gh pr checks <n> -R <owner>/<repo>`; it exits non-zero while any check is failing or still running.
 - Before the first `gh issue create` of a session, check the target with `gh repo view --json nameWithOwner`: in a fork, `gh` can default to the upstream.
-
-### GitLab (`glab`)
-
-- **Create**: `glab issue create --title "..." --description "..." --yes` (heredoc for multi-line descriptions), plus `-R <group>/<project>` for a sibling. Without `--yes` it waits for a confirmation nobody gives.
-- **Read**: `glab issue view <n> --comments`, `-F json` for machine-readable output.
-- **List**: `glab issue list -O json --label ready-for-agent`.
-- **Comment**: `glab issue note <n> --message "..."`. GitLab calls comments "notes".
-- **Labels**: `glab issue update <n> --label "..."` / `--unlabel "..."`. Create once: `glab label create --name ready-for-agent`.
-- **Close**: note first, then `glab issue close <n>`; `close` takes no comment.
-- **Merge requests**: `glab mr create ... --yes`, `glab mr view`, `glab mr note`. GitLab numbers issues and MRs separately.
-- **Pipeline state of a merge request**: `glab ci status --branch ticket-<n> -R <group>/<project>`.
