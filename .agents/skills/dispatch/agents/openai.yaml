@@ -1,0 +1,5 @@
+interface:
+  display_name: "Dispatch"
+  short_description: "Hand approved tickets to fresh agents in the implementing repos"
+policy:
+  allow_implicit_invocation: false

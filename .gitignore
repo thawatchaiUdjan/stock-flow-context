@@ -1,0 +1,8 @@
+# Personal Claude Code settings
+.claude/settings.local.json
+
+# OS
+.DS_Store
+
+# Worker pids and logs written by scripts/dispatch.sh
+.dispatch/
