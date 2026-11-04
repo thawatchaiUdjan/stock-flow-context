@@ -10,6 +10,8 @@ The record for stock-flow: what the system must do, for whom, and under what rul
 | `stock-flow-api` | Backend. Publishes the API contract | `../stock-flow-api` | `thawatchaiUdjan/stock-flow-api` |
 | `stock-flow-web` | Frontend. Consumes the API contract | `../stock-flow-web` | `thawatchaiUdjan/stock-flow-web` |
 
+The project is a practice project for frontend development: [README](README.md#project-goal).
+
 To read a sibling repo, start the session with `--add-dir ../stock-flow-api` (or `../stock-flow-web`). Read them; never edit them from here. The only things this repo runs in them are `scripts/update-all-skills.sh` and `scripts/dispatch.sh` (through `/dispatch`).
 
 ## What belongs here

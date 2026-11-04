@@ -11,6 +11,10 @@ The record for stock-flow: requirements, business decisions and shared vocabular
 
 Keep the three clones side by side: the agent docs refer to the siblings as `../stock-flow-api` and `../stock-flow-web`.
 
+## Project goal
+
+A practice project for frontend development.
+
 ## First-time setup
 
 1. Create the three repos on one code host (GitHub or GitLab), under one owner, and add each one's `origin`. In `docs/agents/issue-tracker.md` and the two siblings' copies, keep the command section for that host and delete the other. In each repo, delete the template folder of the host you don't use (`.github/` or `.gitlab/`).
