@@ -27,7 +27,7 @@ REPOS=(stock-flow-api stock-flow-web)
 # Claude workers: what they may run unattended, on top of your own permission settings,
 # and what they may never run. The Edit rules set below cover the file tools only; a
 # shell command can still write anywhere the Bash allowlist reaches, so keep it narrow.
-# FILL: add each repo's build and test commands, e.g. "Bash(make test *)".
+# Each repo's build and test commands live in its own .claude/settings.json, not here.
 CLAUDE_ALLOWED=(
   "Bash(git *)"
   "Bash(gh issue view *)" "Bash(gh issue comment *)" "Bash(gh pr create *)" "Bash(gh pr view *)"
