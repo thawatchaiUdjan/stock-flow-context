@@ -12,7 +12,7 @@ The record for stock-flow: what the system must do, for whom, and under what rul
 
 The project is a practice project for frontend development: [README](README.md#project-goal).
 
-To read a sibling repo, start the session with `--add-dir ../stock-flow-api` (or `../stock-flow-web`). Read them; never edit them from here. The only things this repo runs in them are `scripts/update-all-skills.sh` and `scripts/dispatch.sh` (through `/dispatch`).
+To read a sibling repo, start the session with `--add-dir ../stock-flow-api` (or `../stock-flow-web`). Read them; never edit them from here. The only things this repo runs in them are `scripts/update-all-skills.sh` and the workers `/dispatch` starts (through Orca orchestration, or `scripts/dispatch.sh` without Orca).
 
 ## What belongs here
 
@@ -40,7 +40,7 @@ Link to the sibling repos' docs; never copy them. A copy drifts from its source.
 
 ## Guiding the user
 
-The steps, with what the user types at each: `docs/workflow.md`. End every step by naming the next one and its command. When asked "what's next?", work out where things stand from the record, the open issues in all three repos and `scripts/dispatch.sh --status`, then answer from that page. Until both implementing repos have merged their stack, and `stock-flow-web` its design direction (`docs/design.md`), the next step is *Before the first feature*.
+The steps, with what the user types at each: `docs/workflow.md`. End every step by naming the next one and its command. When asked "what's next?", work out where things stand from the record, the open issues in all three repos and the running workers (`orca orchestration worker-list --json`, or `scripts/dispatch.sh --status` without Orca), then answer from that page. Until both implementing repos have merged their stack, and `stock-flow-web` its design direction (`docs/design.md`), the next step is *Before the first feature*.
 
 ## Where skill output goes
 
