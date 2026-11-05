@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Starts a fresh agent in an implementing repo to work one ticket, in the background.
+# The fallback for when Orca isn't available: /dispatch starts workers through Orca
+# orchestration otherwise (docs/workflow.md, "No Orca").
 #
 #   scripts/dispatch.sh <repo> <ticket>            start a ticket: new branch ticket-<n>, new worktree
 #   scripts/dispatch.sh --resume <repo> <ticket>   continue it on its existing branch, e.g. after a

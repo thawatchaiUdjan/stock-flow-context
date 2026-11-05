@@ -7,13 +7,15 @@ Work leaves this repo as tickets in `stock-flow-api` and `stock-flow-web`. A tic
 1. The requirement (`Status: Confirmed`) or ADR (`Status: Accepted`) is **merged** here. A ticket never runs ahead of the record: if the record is still a draft, so is the ticket.
 2. `/to-spec` publishes the spec as an issue in this repo.
 3. `/to-tickets` publishes the tickets to the implementing repos (rules for slices that cross repos: `issue-tracker.md`).
-4. `/dispatch` starts a fresh agent in the implementing repo for each ticket that is ready; it runs `/implement <ticket>` there and reports back on the ticket and its pull request.
+4. `/dispatch`, the coordinator, starts a fresh worker in the implementing repo for each ticket that is ready, on the model its `Model:` line names; the worker runs `/implement <ticket>` there and reports back on the ticket and its pull request.
 
 ## What every ticket carries
 
 On top of the `to-tickets` issue template (What to build, Acceptance criteria, Blocked by), add:
 
 ```md
+Model: standard | deep
+
 ## Record
 - Spec: <owner>/stock-flow-context#<n>
 - Rules: docs/requirements/<module>.md R3, R4 (link to the file on main)
@@ -29,6 +31,7 @@ The reasoning behind each rule the implementer could otherwise "simplify" away.
 
 - **Record links, not restatements.** Point at the rule by its ID; quote it only where the exact wording matters. The implementing repo implements *from the record*, never from a summary of it, so a paraphrase that drifts from the record is a defect waiting to be built.
 - **Relay the reasoning.** An implementer who knows *why* a value is stored but not validated will not quietly add the validation back.
+- **Name the model tier.** `Model: deep` for a ticket whose hard part is reasoning rather than typing: a rule that must hold under concurrency (stock deducted by two orders at once), authentication and sessions, or a screen with many interacting states. Everything else is `Model: standard`. The tier maps to a model per agent in `docs/workflow.md`, *Models*; never name a model here.
 - **Name who authorised the work.** Write *"the requirements owner has authorised…"*, never *"Authorised to build…"* as though the authority were yours. The implementer cannot otherwise tell a human decision from an agent that talked itself into one.
 
 ## Stack tickets

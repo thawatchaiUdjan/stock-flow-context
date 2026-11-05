@@ -18,7 +18,7 @@ A practice project for frontend development.
 ## First-time setup
 
 1. Create the three repos on one code host (GitHub or GitLab), under one owner, and add each one's `origin`. In `docs/agents/issue-tracker.md` and the two siblings' copies, keep the command section for that host and delete the other. In each repo, delete the template folder of the host you don't use (`.github/` or `.gitlab/`).
-2. Set `AGENT` (`claude` or `codex`) in `scripts/dispatch.sh`; the workers' allowed commands are added once the stack is chosen. Fill the other placeholders. `grep -rn 'FILL' --exclude-dir=.agents .` lists every one. If you rename the repos, also rename them in `REPOS` in `scripts/update-all-skills.sh` and `scripts/dispatch.sh`.
+2. Workers are started through Orca orchestration; `scripts/dispatch.sh` is the fallback without Orca (set its `AGENT`, `claude` or `codex`). The workers' allowed commands are added once the stack is chosen. Fill the other placeholders. `grep -rn 'FILL' --exclude-dir=.agents .` lists every one. If you rename the repos, also rename them in `REPOS` in `scripts/update-all-skills.sh` and `scripts/dispatch.sh`.
 3. `./scripts/install-skills.sh` installs the skills listed below.
 4. Create the `ready-for-agent` label in all three repos (`gh label create ready-for-agent`, or `glab label create --name ready-for-agent`, with `-R <owner>/<repo>` for each sibling). `/to-spec` and `/to-tickets` apply it.
 5. Commit. Then choose the stack, before the first feature: [docs/workflow.md](docs/workflow.md#before-the-first-feature-choose-the-stack).
@@ -27,7 +27,7 @@ There is no need to run `/setup-matt-pocock-skills`: the files it would write (`
 
 ## How work flows
 
-Once per project: `grill the stack → stack tickets ✋ → stack PRs ✋ → plan the design in stock-flow-web ✋`. Then for every feature: `grill → record PR ✋ → /to-spec → /to-tickets ✋ → /dispatch → PRs ✋`. Step by step, with what you type and what the agent does: [docs/workflow.md](docs/workflow.md). In a session here, ask **"what's next?"** at any point.
+Once per project: `grill the stack → stack tickets ✋ → stack PRs ✋ → plan the design in stock-flow-web ✋`. Then for every feature: session A `grill → record PR ✋ → /to-spec → /to-tickets ✋`, which starts session B `/dispatch → PRs ✋`. Step by step, with what you type and what the agent does: [docs/workflow.md](docs/workflow.md). In a session here, ask **"what's next?"** at any point.
 
 ## Agent skills
 
@@ -43,7 +43,7 @@ From [mattpocock/skills](https://github.com/mattpocock/skills), installed by `sc
 | `to-tickets` | Hands the spec to the implementing repos as tickets |
 | `writing-for-agents` | This repo's output is read by agents: `AGENTS.md`, tickets, the docs in `docs/agents/` |
 | `setup-matt-pocock-skills` | Re-runs tracker setup if it ever changes. User-invoked only, so it costs no context until called |
-| `dispatch` | Written in this repo (`OTHER_SKILLS` in the install script): checks each ticket is ready, starts a fresh agent for it in the implementing repo with `scripts/dispatch.sh`, and reports what came back. No upstream skill hands work to another repo |
+| `dispatch` | Written in this repo (`OTHER_SKILLS` in the install script): the coordinator: checks each ticket is ready, starts a supervised worker for it in the implementing repo through Orca orchestration (`scripts/dispatch.sh` without Orca), relays questions and reports what came back. No upstream skill hands work to another repo |
 
 Left out on purpose: `tdd`, `implement`, `code-review`, `diagnosing-bugs` (there is no code here), and any overlapping methodology such as superpowers (two process frameworks compete over the same steps).
 
