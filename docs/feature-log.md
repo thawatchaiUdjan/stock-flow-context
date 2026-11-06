@@ -4,7 +4,7 @@ When each feature started and finished, so "how long did X take?" has an answer 
 
 | Feature | Started | Done | Days | Links |
 | --- | --- | --- | --- | --- |
-| Users & access: login, roles, access by role | 2026-11-06 | | | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/3) |
+| Users & access: login, roles, access by role | 2026-11-06 | 2026-11-06 | 1 | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/3), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/4) |
 
 - **Feature:** a short name for what was grilled; one row per `/grill-with-docs` run on a new feature or a rule change.
 - **Started:** the day `/grill-with-docs` began, `YYYY-MM-DD`. Written as the grill begins.

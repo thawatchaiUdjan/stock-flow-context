@@ -4,7 +4,7 @@ Where each module stands across the three repos. Update it in the same pull requ
 
 | Module | Requirements | API | Web | Notes |
 | --- | --- | --- | --- | --- |
-| [Users & access](requirements/users-and-access.md) | Amended | Not started | Not started | |
+| [Users & access](requirements/users-and-access.md) | Amended | Done | Done | Follow-ups: the Login log's IP check on a deployment (api ADR 0022 stays Proposed until then); api contract marks `LoginLogEntryBody.user` non-null though it can be null; a login racing the Owner's session delete (ADR 0003). |
 
 **Requirements:** `Draft` · `Confirmed` · `Amended`
 **API / Web:** `Not started` · `In progress` · `Done` · `Diverges` (built differently from the record; say how in Notes)
