@@ -1,6 +1,6 @@
 # Users & access
 
-Status: Amended by ADR 0003
+Status: Amended by ADR 0003 and ADR 0004
 
 ## Purpose
 
@@ -38,7 +38,7 @@ Everyone who works in the Shop uses this module to log in. It decides who has a 
 - **R15** A User's email cannot change after the User is created.
 - **R16** A User is Active or Inactive, and only the Owner sets this. An Inactive User cannot log in, and their sessions end at once.
 - **R17** A User is never deleted, so that what they did stays attributed to them.
-- **R18** The Owner's own status and Role cannot be changed.
+- **R18** The Owner's own status, Role and name cannot be changed in the system (ADR 0004).
 - **R19** A password has at least 6 characters.
 - **R20** Every User sets their own password, the first time and after a reset. Nobody else sets or sees it.
 - **R21** A session ends 7 days after login, however much it is used.
@@ -55,7 +55,7 @@ Everyone who works in the Shop uses this module to log in. It decides who has a 
 - **R32** An Inactive User's Setup link stops working, and none can be issued for them.
 - **R33** The Users list shows which Users have not set a password yet.
 - **R34** The Owner's password is not reset in the system. A developer issues the Owner's Setup link, at installation and whenever the Owner forgets their password. No password is kept in any repo. When the Owner sets a password through a new Setup link, all the Owner's sessions end at once (ADR 0003).
-- **R35** The Owner can change a User's name, and change their Role between Admin and Staff. A Role change applies at once to the sessions that User has open.
+- **R35** The Owner can change the name of every User except their own (ADR 0004), and change their Role between Admin and Staff. A Role change applies at once to the sessions that User has open.
 - **R36** The Login log records every successful login, failed login and logout: the time, the email entered, the User if it matches one, the result, the IP address and the browser or device.
 - **R37** The Login log never records a password, whether right or wrong.
 - **R38** The Login log lists the newest entries first and can be filtered by User and by result.
