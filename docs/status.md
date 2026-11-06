@@ -4,7 +4,7 @@ Where each module stands across the three repos. Update it in the same pull requ
 
 | Module | Requirements | API | Web | Notes |
 | --- | --- | --- | --- | --- |
-| [Users & access](requirements/users-and-access.md) | Amended | Done | Done | Follow-ups: the Login log's IP check on a deployment (api ADR 0022 stays Proposed until then); api contract marks `LoginLogEntryBody.user` non-null though it can be null; a login racing the Owner's session delete (ADR 0003). |
+| [Users & access](requirements/users-and-access.md) | Amended | Done | Done | Two concurrency findings, reasoned but not reproduced, are listed in [stock-flow-api#19](https://github.com/thawatchaiUdjan/stock-flow-api/pull/19): a possible deadlock between Update User or Reset password and Log out, and overlapping logins starving a password set. Ticket them if seen. |
 
 **Requirements:** `Draft` · `Confirmed` · `Amended`
 **API / Web:** `Not started` · `In progress` · `Done` · `Diverges` (built differently from the record; say how in Notes)
