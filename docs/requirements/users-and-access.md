@@ -1,6 +1,6 @@
 # Users & access
 
-Status: Confirmed (2026-11-06, thawatchaiUdjan)
+Status: Amended by ADR 0003
 
 ## Purpose
 
@@ -54,7 +54,7 @@ Everyone who works in the Shop uses this module to log in. It decides who has a 
 - **R31** Only the Owner resets a password, from the Users list. The User's password stops working, their sessions end at once, and a new Setup link is issued.
 - **R32** An Inactive User's Setup link stops working, and none can be issued for them.
 - **R33** The Users list shows which Users have not set a password yet.
-- **R34** The Owner's password is not reset in the system. A developer issues the Owner's Setup link, at installation and whenever the Owner forgets their password. No password is kept in any repo.
+- **R34** The Owner's password is not reset in the system. A developer issues the Owner's Setup link, at installation and whenever the Owner forgets their password. No password is kept in any repo. When the Owner sets a password through a new Setup link, all the Owner's sessions end at once (ADR 0003).
 - **R35** The Owner can change a User's name, and change their Role between Admin and Staff. A Role change applies at once to the sessions that User has open.
 - **R36** The Login log records every successful login, failed login and logout: the time, the email entered, the User if it matches one, the result, the IP address and the browser or device.
 - **R37** The Login log never records a password, whether right or wrong.

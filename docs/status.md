@@ -4,7 +4,7 @@ Where each module stands across the three repos. Update it in the same pull requ
 
 | Module | Requirements | API | Web | Notes |
 | --- | --- | --- | --- | --- |
-| [Users & access](requirements/users-and-access.md) | Confirmed | Not started | Not started | |
+| [Users & access](requirements/users-and-access.md) | Amended | Not started | Not started | |
 
 **Requirements:** `Draft` · `Confirmed` · `Amended`
 **API / Web:** `Not started` · `In progress` · `Done` · `Diverges` (built differently from the record; say how in Notes)
