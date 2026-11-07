@@ -20,6 +20,12 @@ Stack tickets are worked by hand, not dispatched: a worker may run only the comm
 
 What you said the system must support is input to the stack, not yet a requirement: carry it into the first feature's grill, where it becomes rules.
 
+## Autopilot (ADR 0005)
+
+While [ADR 0005](adr/0005-autopilot.md) is `Accepted`, nobody waits at the ✋ gates below. You type one line here, e.g. "build the remaining modules on autopilot"; the agent grills itself with its own recommended answers, merges the record pull request, publishes the spec and tickets, coordinates the workers and merges each pull request once its pipeline is green. It lists every decision it made for you in the [review queue](review-queue.md); review from there whenever you like, and change any decision with `/grill-with-docs`.
+
+It stops for you only for a step that needs your credentials or a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. To return to the gated flow below, supersede ADR 0005.
+
 ## Every feature
 
 A feature runs in two sessions here, plus the workers the second one starts. You type one command, `/grill-with-docs`; after that you answer questions and pass the three ✋ gates: the record, the breakdown, and each pull request.
