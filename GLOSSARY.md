@@ -45,3 +45,75 @@ _Avoid_: Invite link, reset link, temporary password
 **Login log**:
 The permanent list of logins, failed logins and logouts.
 _Avoid_: Audit log, login history
+
+### Products
+
+**Product**:
+Something the Shop sells and keeps in stock.
+_Avoid_: Item, article
+
+**SKU**:
+The short code that identifies one Product.
+_Avoid_: Code, product number, barcode
+
+**Stock**:
+How many units of a Product the Shop has and can still sell.
+_Avoid_: Inventory, quantity on hand, balance
+
+**Minimum stock**:
+The level at or below which a Product needs restocking.
+_Avoid_: Reorder point, threshold, safety stock
+
+**Low**:
+The state of a Product whose stock is above 0 and at or below its Minimum stock.
+_Avoid_: Running out, warning
+
+**Out of stock**:
+The state of a Product whose stock is 0.
+_Avoid_: Sold out, empty
+
+**Archived**:
+The status of a Product the Shop no longer sells. The Product still exists.
+_Avoid_: Deleted, inactive, discontinued
+
+### Stock movements
+
+**Stock movement**:
+One recorded change to a Product's stock, which is never edited.
+_Avoid_: Transaction, stock log, ledger entry
+
+**Receive**:
+A Stock movement that adds units delivered to the Shop.
+_Avoid_: Stock in, restock, purchase
+
+**Adjustment**:
+A Stock movement that corrects a Product's stock to what is really there, up or down.
+_Avoid_: Correction, write-off, stock edit
+
+### Orders
+
+**Order**:
+A sale of one or more Products to one customer.
+_Avoid_: Sale, invoice, transaction
+
+**Order line**:
+One Product on an Order, with its quantity and price.
+_Avoid_: Item, row
+
+**Pending**:
+The status of an Order that has taken its stock and is not finished yet.
+_Avoid_: Open, new, draft
+
+**Completed**:
+The status of an Order the customer has paid for and received.
+_Avoid_: Done, fulfilled, paid
+
+**Cancelled**:
+The status of an Order called off before it was Completed, whose stock went back.
+_Avoid_: Voided, deleted
+
+### Dashboard & reports
+
+**Sales**:
+The totals of Completed Orders, counted on the day each was completed.
+_Avoid_: Revenue, income, turnover
