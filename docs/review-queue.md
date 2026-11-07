@@ -44,3 +44,17 @@ To keep a decision, tick it. To change one, run `/grill-with-docs` here: the cha
   - [ ] R2: Sales count Completed Orders only, on the day they were completed.
   - [ ] R3 to R6: what the Dashboard shows.
   - [ ] R7, R8: what Reports show, and the 366-day limit.
+
+## Read into the record by the implementing repos
+
+Choices the workers made where the record was silent. None adds a business rule; each is in its pull request.
+
+- [ ] [api#26](https://github.com/thawatchaiUdjan/stock-flow-api/pull/26), Products: a SKU's letters are A to Z only; stock and Minimum stock stop at 2,147,483,647 (a larger value answers 422); the Product List pages by offset and shows a total.
+- [ ] [api#27](https://github.com/thawatchaiUdjan/stock-flow-api/pull/27), Stock movements: the list pages by cursor, as the Login log does.
+- [ ] [api#28](https://github.com/thawatchaiUdjan/stock-flow-api/pull/28), Orders: a refused Order may leave a gap in the Order numbers.
+- [ ] [api#29](https://github.com/thawatchaiUdjan/stock-flow-api/pull/29), Dashboard & reports: the figures are read one after another, so an Order completed while the page loads can show in one figure and not yet in another (R9, a window of milliseconds).
+- [ ] [web#28](https://github.com/thawatchaiUdjan/stock-flow-web/pull/28), Orders: an Order is written "Order #12" everywhere, where the spec said "Order 12".
+
+## How the work was checked
+
+- [ ] Every pull request was merged by the agent on a green pipeline, with no human review. Some workers could not run `code-review` (it starts sub-agents, which they may not) and reviewed their own diff instead; each pull request says which.
