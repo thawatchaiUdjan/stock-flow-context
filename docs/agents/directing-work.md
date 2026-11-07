@@ -32,7 +32,7 @@ The reasoning behind each rule the implementer could otherwise "simplify" away.
 - **Record links, not restatements.** Point at the rule by its ID; quote it only where the exact wording matters. The implementing repo implements *from the record*, never from a summary of it, so a paraphrase that drifts from the record is a defect waiting to be built.
 - **Relay the reasoning.** An implementer who knows *why* a value is stored but not validated will not quietly add the validation back.
 - **Name the model tier.** `Model: deep` for a ticket whose hard part is reasoning rather than typing: a rule that must hold under concurrency (stock deducted by two orders at once), authentication and sessions, or a screen with many interacting states. Everything else is `Model: standard`. The tier maps to a model per agent in `docs/workflow.md`, *Models*; never name a model here.
-- **Name who authorised the work.** Write *"the requirements owner has authorised…"*, never *"Authorised to build…"* as though the authority were yours. The implementer cannot otherwise tell a human decision from an agent that talked itself into one.
+- **Name who authorised the work.** Write *"the requirements owner has authorised…"*, never *"Authorised to build…"* as though the authority were yours. The implementer cannot otherwise tell a human decision from an agent that talked itself into one. Under ADR 0005, write *"Authorised by the requirements owner's delegation in stock-flow-context ADR 0005, <date>. Decided and relayed by the stock-flow-context agent."*
 
 ## Stack tickets
 
