@@ -5,10 +5,10 @@ Where each module stands across the three repos. Update it in the same pull requ
 | Module | Requirements | API | Web | Notes |
 | --- | --- | --- | --- | --- |
 | [Users & access](requirements/users-and-access.md) | Amended | Done | Done | Two concurrency findings, reasoned but not reproduced, are listed in [stock-flow-api#19](https://github.com/thawatchaiUdjan/stock-flow-api/pull/19): a possible deadlock between Update User or Reset password and Log out, and overlapping logins starving a password set. Ticket them if seen. |
-| [Products](requirements/products.md) | Confirmed | In progress | Not started | Decided by the agent under [ADR 0005](adr/0005-autopilot.md). |
-| [Stock movements](requirements/stock-movements.md) | Confirmed | Not started | Not started | Decided by the agent under ADR 0005. |
-| [Orders](requirements/orders.md) | Confirmed | Not started | Not started | Decided by the agent under ADR 0005. |
-| [Dashboard & reports](requirements/dashboard-and-reports.md) | Confirmed | Not started | Not started | Decided by the agent under ADR 0005. |
+| [Products](requirements/products.md) | Confirmed | Done | Done | Decided by the agent under [ADR 0005](adr/0005-autopilot.md). |
+| [Stock movements](requirements/stock-movements.md) | Confirmed | Done | Done | Decided by the agent under ADR 0005. |
+| [Orders](requirements/orders.md) | Confirmed | Done | Done | Decided by the agent under ADR 0005. |
+| [Dashboard & reports](requirements/dashboard-and-reports.md) | Confirmed | Done | Done | Decided by the agent under ADR 0005. |
 
 **Requirements:** `Draft` · `Confirmed` · `Amended`
 **API / Web:** `Not started` · `In progress` · `Done` · `Diverges` (built differently from the record; say how in Notes)
