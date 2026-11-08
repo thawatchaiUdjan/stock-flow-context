@@ -26,6 +26,8 @@ While [ADR 0005](adr/0005-autopilot.md) is `Accepted`, nobody waits at the ✋ g
 
 Two things make it fast. The api's contract for the whole feature is merged first, as one ticket, so every api and web ticket after it runs in parallel ([issue-tracker](agents/issue-tracker.md#tickets-when-a-slice-crosses-repos)). And the coordinator works through scripts, not by hand: `scripts/worker-spec.sh` writes each worker's prompt, `scripts/merge-pr.sh` merges a pull request only with a green pipeline and `code-review`'s evidence and proves the merge, and `scripts/ready-tickets.sh` lists what can start next.
 
+Coordinating is cheap work, so it does not run on the deep model. Once the spec and tickets are published, the session that wrote them starts the coordinator as in step 4 (`orca agent launch ... --model <standard model> --effort low --prompt "/dispatch"`) and ends. The coordinator merges, starts workers, and wakes only when Orca wakes it. A question it cannot answer from the record goes back to a deep session.
+
 It stops for you only for a step that needs your credentials or a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. To return to the gated flow below, supersede ADR 0005.
 
 ## Every feature
