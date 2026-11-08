@@ -10,6 +10,8 @@ for repo in stock-flow-api stock-flow-web; do
   gh issue list -R "$owner/$repo" --label ready-for-agent --state open --limit 100 --json number,title,body \
     -q ".[] | \"\(.number)\t\(.title)\t\([.body | scan(\"$re\")] | map(.[0]) | join(\" \"))\"" |
   while IFS=$'\t' read -r n title blockers; do
+    # The list comes from a search index that lags a close by seconds; trust the issue itself.
+    [ "$(gh issue view "$n" -R "$owner/$repo" --json state -q .state)" = OPEN ] || continue
     open=""
     for b in $blockers; do
       [ "$(gh issue view "${b#*#}" -R "${b%#*}" --json state -q .state)" = OPEN ] && open="$open $b"
