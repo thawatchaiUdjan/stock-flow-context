@@ -24,6 +24,8 @@ What you said the system must support is input to the stack, not yet a requireme
 
 While [ADR 0005](adr/0005-autopilot.md) is `Accepted`, nobody waits at the ✋ gates below. You type one line here, e.g. "build the remaining modules on autopilot"; the agent grills itself with its own recommended answers, merges the record pull request, publishes the spec and tickets, coordinates the workers and merges each pull request once its pipeline is green. It lists every decision it made for you in the [review queue](review-queue.md); review from there whenever you like, and change any decision with `/grill-with-docs`.
 
+Two things make it fast. The api's contract for the whole feature is merged first, as one ticket, so every api and web ticket after it runs in parallel ([issue-tracker](agents/issue-tracker.md#tickets-when-a-slice-crosses-repos)). And the coordinator works through scripts, not by hand: `scripts/worker-spec.sh` writes each worker's prompt, `scripts/merge-pr.sh` merges a pull request only with a green pipeline and `code-review`'s evidence and proves the merge, and `scripts/ready-tickets.sh` lists what can start next.
+
 It stops for you only for a step that needs your credentials or a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. To return to the gated flow below, supersede ADR 0005.
 
 ## Every feature

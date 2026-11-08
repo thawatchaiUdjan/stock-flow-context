@@ -7,6 +7,9 @@ To keep a decision, tick it. To change one, run `/grill-with-docs` here: the cha
 ## Process
 
 - [ ] [ADR 0005](adr/0005-autopilot.md): the agent decides, merges and answers workers' questions until the owner supersedes it.
+- [ ] [Contract first](agents/issue-tracker.md#tickets-when-a-slice-crosses-repos): under Autopilot, a feature's api operations are merged first, answering 501, so api and web tickets run in parallel. Until each slice lands, the deployed api answers 501 on its operations and the deployed web shows those screens' error state; acceptable while nothing is live.
+- [ ] [Model tiers](agents/directing-work.md#what-every-ticket-carries): `deep` only for concurrency, transactions, and authentication; every web screen is `standard`.
+- [ ] [Dispatch](../.agents/skills/dispatch/SKILL.md#autopilot): up to two workers per repo at once, when their tickets build different screens or endpoints.
 
 ## Products
 
@@ -54,7 +57,10 @@ Choices the workers made where the record was silent. None adds a business rule;
 - [ ] [api#28](https://github.com/thawatchaiUdjan/stock-flow-api/pull/28), Orders: a refused Order may leave a gap in the Order numbers.
 - [ ] [api#29](https://github.com/thawatchaiUdjan/stock-flow-api/pull/29), Dashboard & reports: the figures are read one after another, so an Order completed while the page loads can show in one figure and not yet in another (R9, a window of milliseconds).
 - [ ] [web#28](https://github.com/thawatchaiUdjan/stock-flow-web/pull/28), Orders: an Order is written "Order #12" everywhere, where the spec said "Order 12".
+- [ ] [api#26](https://github.com/thawatchaiUdjan/stock-flow-api/pull/26), Products: the List's `total` comes from a second query, so a Product created between the two can make it differ from the rows by one. Kept: the write rate is tiny.
+- [ ] [api#29](https://github.com/thawatchaiUdjan/stock-flow-api/pull/29), Dashboard & reports: a Sales report given only `to` starts on the first day of that month (R7 says only "this month so far by default").
 
 ## How the work was checked
 
-- [ ] Every pull request was merged by the agent on a green pipeline, with no human review. Some workers could not run `code-review` (it starts sub-agents, which they may not) and reviewed their own diff instead; each pull request says which.
+- [ ] Every pull request was merged by the agent on a green pipeline, with no human review.
+- [ ] Four of them ran without `code-review` (api#26, api#29, web#27, web#30): Orca's worker preamble forbids sub-agents unless the task asks, and those workers took it to cover `code-review`'s. On 2026-11-08 the agent reviewed the four afterwards and found eleven issues, all low. The ones worth fixing are in [api#30](https://github.com/thawatchaiUdjan/stock-flow-api/issues/30) and [web#31](https://github.com/thawatchaiUdjan/stock-flow-web/issues/31). Workers' prompts now ask for the sub-agents, and `scripts/merge-pr.sh` merges nothing without the review line.

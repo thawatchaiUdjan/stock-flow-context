@@ -35,6 +35,7 @@ Read the issue (command below), adding `-R <owner>/<repo>` when the reference na
 - The api ticket **blocks** the web ticket whenever the web needs the contract change the api ticket makes.
 - Record a cross-repo block as a `Blocked by: <owner>/stock-flow-api#<n>` line at the top of the web ticket. It works on every host and plan; a native blocking link may be added as well where the host supports one across repos. A ticket is unblocked when every listed blocker is closed.
 - A slice that touches only one repo is one ticket, as upstream.
+- **Under Autopilot ([ADR 0005](../adr/0005-autopilot.md)), the contract goes first.** Before the slices, publish one api ticket, `Kind: contract`, that declares every operation the spec names, with its inputs, outputs and errors, each answering 501 until its slice is built, and regenerates the contract. Every slice ticket, api and web, is then blocked by that ticket only, not by its sibling: the web builds against mocks of the contract, so both repos work in parallel. The contract ticket carries no business logic.
 - Skip `to-tickets`' sub-issue step: sub-issues don't span repos. Each ticket's *Spec* link replaces it.
 
 ## Pull requests as a triage surface
