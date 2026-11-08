@@ -70,6 +70,8 @@ Choices the workers made where the record was silent. None adds a business rule;
 - [ ] [api#26](https://github.com/thawatchaiUdjan/stock-flow-api/pull/26), Products: the List's `total` comes from a second query, so a Product created between the two can make it differ from the rows by one. Kept: the write rate is tiny.
 - [ ] [api#29](https://github.com/thawatchaiUdjan/stock-flow-api/pull/29), Dashboard & reports: a Sales report given only `to` starts on the first day of that month (R7 says only "this month so far by default").
 
+- [ ] Every required text field (Product name and unit, User name, Adjustment note) treats a value of only whitespace, in any script, as blank ([users-and-access](requirements/users-and-access.md) R14, [stock-movements](requirements/stock-movements.md) R5, [products](requirements/products.md) R2, R4). Built in [api#30](https://github.com/thawatchaiUdjan/stock-flow-api/issues/30) and [api#34](https://github.com/thawatchaiUdjan/stock-flow-api/issues/34).
+
 ## How the work was checked
 
 - [ ] Every pull request was merged by the agent on a green pipeline, with no human review.
