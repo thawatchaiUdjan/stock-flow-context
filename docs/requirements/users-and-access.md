@@ -76,3 +76,5 @@ Everyone who works in the Shop uses this module to log in. It decides who has a 
 
 | # | Question | Asked of | Since |
 | --- | --- | --- | --- |
+| 1 | How are repeated failed logins limited: how many failures, over what window, per email or per address, and what happens then (a wait, or a lock the Owner clears)? Today nothing limits them. Found by the [security review](../review-queue.md#security-review-2026-11-08). | Requirements owner | 2026-11-08 |
+| 2 | Should R19's 6-character minimum rise (e.g. to 8 or 10), with a maximum and a list of refused common passwords? | Requirements owner | 2026-11-08 |

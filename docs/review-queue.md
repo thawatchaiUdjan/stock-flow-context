@@ -4,6 +4,16 @@ What the agent decided on the requirements owner's behalf under [ADR 0005](adr/0
 
 To keep a decision, tick it. To change one, run `/grill-with-docs` here: the change becomes a new ADR, and its pull request removes the row.
 
+## Start here
+
+Short on time? These five carry the most weight; the rest can wait.
+
+1. [ ] The [security review](#security-review-2026-11-08) below: login has no throttling, and the password minimum is 6 characters.
+2. [ ] [ADR 0007](adr/0007-orders-take-stock-when-created.md): an Order takes its stock when created, and is never edited.
+3. [ ] [ADR 0006](adr/0006-stock-changes-only-through-movements.md): stock changes only through Stock movements.
+4. [ ] [Dashboard & reports](requirements/dashboard-and-reports.md) R1, R2: days run on Bangkok time; Sales count Completed Orders on the day they completed.
+5. [ ] [How the work was checked](#how-the-work-was-checked): what was merged with no human review.
+
 ## Process
 
 - [ ] [ADR 0005](adr/0005-autopilot.md): the agent decides, merges and answers workers' questions until the owner supersedes it.
@@ -64,3 +74,15 @@ Choices the workers made where the record was silent. None adds a business rule;
 
 - [ ] Every pull request was merged by the agent on a green pipeline, with no human review.
 - [ ] Four of them ran without `code-review` (api#26, api#29, web#27, web#30): Orca's worker preamble forbids sub-agents unless the task asks, and those workers took it to cover `code-review`'s. On 2026-11-08 the agent reviewed the four afterwards and found eleven issues, all low. The ones worth fixing are in [api#30](https://github.com/thawatchaiUdjan/stock-flow-api/issues/30) and [web#31](https://github.com/thawatchaiUdjan/stock-flow-web/issues/31). Workers' prompts now ask for the sub-agents, and `scripts/merge-pr.sh` merges nothing without the review line.
+
+## Security review (2026-11-08)
+
+A read-only review of authentication, sessions and authorization in `stock-flow-api` on `main`, and of how `stock-flow-web` holds the session. Nothing is ticketed yet: the first two findings change confirmed rules, so they need a decision first.
+
+- [ ] **High: login has no throttling or lockout.** Anyone can guess passwords at `POST /login` without limit, for example against the Owner's email. Each attempt runs an Argon2id hash and writes a Login log row. `/setup-link/password` hashes the password before it checks the token, so bad-token calls also burn CPU. A fix needs a rule in [Users & access](requirements/users-and-access.md): how many failures, over what window, and what happens next.
+- [ ] **Medium: passwords need only 6 characters** ([Users & access](requirements/users-and-access.md) R19), with no maximum and no deny-list. With no throttling, `123456` falls quickly.
+- [ ] **Medium: no security headers on the web origin.** `stock-flow-web/vercel.json` sets no CSP, `frame-ancestors`, nosniff or Referrer-Policy, so the app can be framed (clickjacking). This is technical and can be ticketed in the web repo.
+- [ ] **Medium: the api is reachable directly** at its own Vercel origin, so throttling and headers must live in the api itself. Client-IP handling for the Login log ([api ADR 0022](https://github.com/thawatchaiUdjan/stock-flow-api/tree/main/docs/adr), still Proposed) is untested on the second Vercel hop.
+- [ ] **Low:** CSRF protection rests on SameSite=Lax alone. That is safe on `vercel.app`, but not if the app moves to a custom domain whose parent domain has untrusted subdomains. Orders have no maximum number of lines, and a quantity has no maximum. Sessions last 7 days with no idle timeout.
+- Found sound: 128-bit random session and setup tokens, stored hashed. The cookie is HttpOnly, Secure and SameSite=Lax. Setup links are single-use and atomic. Passwords use Argon2id with a constant-time compare. Every login failure gets one identical 401. Every route has a role check. SQL is fully parameterized. No secrets are committed.
+- Not checked: the Vercel and Supabase dashboards, a dependency CVE scan, and the full git history for secrets.
