@@ -14,7 +14,7 @@ Workers are started through **Orca orchestration**. Load its guide once (`orca s
 
 ## 1. Find the candidates
 
-Unless the user named tickets, list the open `ready-for-agent` issues in each implementing repo (commands in `docs/agents/issue-tracker.md`, with `-R` for each repo). Check what is already running: `orca orchestration worker-list --json` in Orca, `scripts/dispatch.sh --status` in the fallback. **A ticket that already has a worker or a branch `ticket-<n>` is not a candidate**: report it under step 4.
+Unless the user named tickets, run `scripts/ready-tickets.sh`: it lists the open `ready-for-agent` issues of both implementing repos, each READY (every blocker closed) or WAITING (with its open blockers). Check what is already running: `orca orchestration worker-list --json` in Orca, `scripts/dispatch.sh --status` in the fallback. **A ticket that already has a worker or a branch `ticket-<n>` is not a candidate**: report it under step 4.
 
 ## 2. Check each candidate before it goes
 
@@ -23,7 +23,7 @@ A ticket goes only if **all** of these hold. Check each against the artefact, no
 1. **It carries what `docs/agents/directing-work.md` requires**: a Record section linking its spec and the rules it implements, a `Model:` line, and an *Authorised by* line naming a person.
 2. **The record it cites is merged here**: `git fetch`, then read each cited file on the remote's default branch (`git show origin/main:<path>`), not the local checkout, since merges happen on the code host. Each cited requirement file has `Status: Confirmed` (or `Amended`), and each cited ADR is `Accepted`.
 3. **Nothing blocks it**: every issue in its `Blocked by` line is closed.
-4. **Its repo is free**: no worker is running there. One worker per repo at a time.
+4. **Its repo is free**: no worker is running there. One worker per repo at a time, or two under *Autopilot*.
 
 ## 3. Start the workers
 
@@ -36,7 +36,7 @@ orca orchestration worker-start --worktree new-top-level --repo id:<repoId> --na
 ```
 
 - `<repoId>` from `orca repo list --json`. The agent, model and effort come from the ticket's `Model:` line through the table in `docs/workflow.md`, *Models*.
-- The spec file says: `/implement #<n>` (`$implement #<n>` for Codex); follow *Working a dispatched ticket* in `AGENTS.md`; the record is at `<absolute path of this repo>` and the other implementing repo at its absolute path, never at `../` paths.
+- The spec file comes from `scripts/worker-spec.sh <repo> <n> [codex]`, which prints its path. Never write it by hand: it carries what every worker needs, the absolute paths, permission for `code-review`'s two sub-agents (Orca's preamble forbids sub-agents unless the task asks), the review line the merge checks for, and the rules that keep a worker's tokens down.
 - If `worker-start` fails, don't rerun it: read `failedStage` and follow Orca's recovery reference.
 
 Then report in one table: each candidate, *started* or *waiting*, and for each waiting one the reason (which blocker is open, which check failed). Checks that failed are the user's to fix; don't work around them. **End your turn**: Orca wakes you.
@@ -59,7 +59,12 @@ When every ticket of the spec is closed, open one pull request here that updates
 While `docs/adr/0005-autopilot.md` is `Accepted`, the requirements owner has delegated their approvals to you, and these replace the matching parts of step 4 and the rules below:
 
 - **A question from a worker.** Answer it yourself with your recommendation. A business answer still goes into the record by a pull request here first, which you merge, and into `docs/review-queue.md`; then onto the ticket, then `reply`.
-- **`worker_done` with a pull request.** Wait for its pipeline (`gh pr checks <n> -R <owner>/<repo> --watch`, in a background command). Green: merge it with `gh pr merge <n> -R <owner>/<repo> --merge --delete-branch`, close its ticket if the merge didn't, and go back to step 1. Red: send the worker the failing job's log and have it push a fix to the same branch. Still red after two fixes: stop and notify the user.
+- **`worker_done` with a pull request.** Run `scripts/merge-pr.sh <repo> <n>` (in a background command; it waits for the pipeline). Never merge by hand, and never start a ticket that the pull request blocks before the script has printed `MERGED`. By exit code:
+  - `0`: merged, its ticket closed, and the ready tickets listed. Go to step 2 with them.
+  - `2`, pipeline red: send the worker the failing job's log (`gh run view <id> --log-failed`) and have it push a fix to the same branch. Still red after two fixes: stop and notify the user.
+  - `3`, no `code-review` line in the Review section: have the worker run `code-review` with its two sub-agents and update the pull request.
+  - `4`, not merged (a conflict with a pull request merged meanwhile): have the worker rebase on `origin/main` and push.
+- **Two workers in one repo.** Allowed when the two tickets build different screens or endpoints. The second to finish rebases if `merge-pr.sh` exits `4`.
 - **A blocker only a person can clear** (credentials, a third-party dashboard, a migration that could lose stored data): notify the user and carry on with the tickets it does not block.
 - **Notify the user** only for that, a pipeline still red after two fixes, a stopped worker you cannot steer on, and the feature done.
 
