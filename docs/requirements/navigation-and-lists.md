@@ -24,4 +24,4 @@ Every User can identify StockFlow, return to their landing page and move between
 
 ## Open questions
 
-None. The requirements owner requested the icon, home link, removal of the two create shortcuts, paginated lists and a navigation bar. R3's top-bar interpretation and R4-R7's detailed paging behaviour are agent decisions under ADR 0005, recorded in the review queue.
+None. The requirements owner requested the icon, home link, removal of the two create shortcuts, paginated lists and a navigation bar. R3's top-bar interpretation and R4-R7's detailed paging behaviour are agent decisions under ADR 0005.

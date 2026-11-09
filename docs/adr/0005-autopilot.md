@@ -1,6 +1,6 @@
 # 0005: Autopilot: the agent decides and merges, the requirements owner reviews afterwards
 
-Status: Accepted
+Status: Superseded by ADR 0008
 Date: 2026-11-07
 Affects: api, web
 
@@ -16,7 +16,7 @@ On 2026-11-07 the requirements owner, thawatchaiUdjan, delegated every decision 
 - **Gates.** None of the ✋ gates in `docs/workflow.md` waits for a person. The agent merges the record pull request, publishes the spec and tickets, and starts the workers.
 - **Merging.** The coordinator merges each implementation pull request once its pipeline is green. Workers still never merge.
 - **Questions.** The coordinator answers workers' questions itself, recording a business answer in the record first, as before.
-- **Review queue.** Every decision the agent makes on the owner's behalf is listed in [`docs/review-queue.md`](../review-queue.md), with a link to where it lives. The owner reviews from there.
+- **Review queue.** Every decision the agent makes on the owner's behalf is listed in [`docs/review-queue.md`](https://github.com/thawatchaiUdjan/stock-flow-context/blob/b2661bed56b38fcd23030a77eebe4872d1f826bc/docs/review-queue.md), with a link to where it lives. The owner reviews from there.
 
 The agent still stops for what only a person can do: a step that needs the owner's credentials or a third-party dashboard, a pipeline that stays red after two fixes, or a change that could lose stored data.
 

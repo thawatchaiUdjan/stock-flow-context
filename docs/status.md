@@ -14,6 +14,8 @@ Where each module stands across the three repos. Update it in the same pull requ
 **Requirements:** `Draft` · `Confirmed` · `Amended`
 **API / Web:** `Not started` · `In progress` · `Done` · `Diverges` (built differently from the record; say how in Notes)
 
+Workflow: [ADR 0008](adr/0008-choose-workflow-per-task.md) requires a mode choice before each new task (Autopilot default, or Approval workflow) and removes the review queue. Unresolved findings remain in [security notes](security-notes.md).
+
 Workflow: [agent cost policy](agents/agent-costs.md) confirmed under ADR 0005 on 2026-11-09. Standard workers default to medium; dispatched review briefs use fresh context. Measurement compares the next three tasks; savings are not yet established. Product module implementation status is unchanged.
 
 Kept deliberately small:

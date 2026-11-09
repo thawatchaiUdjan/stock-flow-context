@@ -3,8 +3,8 @@
 # The fallback for when Orca isn't available: /dispatch starts workers through Orca
 # orchestration otherwise (docs/workflow.md, "No Orca").
 #
-#   scripts/dispatch.sh <repo> <ticket>            start a ticket: new branch ticket-<n>, new worktree
-#   scripts/dispatch.sh --resume <repo> <ticket>   continue it on its existing branch, e.g. after a
+#   scripts/dispatch.sh <repo> <ticket> <autopilot|approval>   start a ticket: new branch ticket-<n>, new worktree
+#   scripts/dispatch.sh --resume <repo> <ticket> <autopilot|approval>   continue it on its existing branch, e.g. after a
 #                                                  question was answered or a failure was fixed
 #   scripts/dispatch.sh --status                   running workers, and every ticket dispatched so far
 #
@@ -45,7 +45,7 @@ CLAUDE_DENIED=(
 CODEX_CONFIG=(-c sandbox_workspace_write.network_access=true)
 
 usage() {
-  echo "usage: scripts/dispatch.sh [--resume] <repo> <ticket-number> | --status" >&2
+  echo "usage: scripts/dispatch.sh [--resume] <repo> <ticket-number> <autopilot|approval> | --status" >&2
   exit 2
 }
 
@@ -76,9 +76,14 @@ case "${1:-}" in
   --status) status; exit 0 ;;
   --resume) resume=1; shift ;;
 esac
-[ "$#" -eq 2 ] || usage
+[ "$#" -eq 3 ] || usage
 repo="$1"
 ticket="$2"
+mode="$3"
+case "$mode" in
+  autopilot|approval) ;;
+  *) usage ;;
+esac
 
 case " ${REPOS[*]} " in
   *" $repo "*) ;;
@@ -157,6 +162,7 @@ for other in "${REPOS[@]}"; do
   readonly_rules+=("Edit(/$WORKSPACE/$other/**)")
 done
 note="You were dispatched by $(basename "$CONTEXT") to work ticket #$ticket. Follow 'Working a dispatched ticket' in AGENTS.md. In this worktree, read the record at $CONTEXT and the sibling repos at their absolute paths:$siblings never at ../ paths."
+note="$note Work mode: $mode, inherited from the owner's task selection under ADR 0008; do not ask again. In approval mode, the coordinator obtains owner approval at workflow gates; in autopilot, decisions are delegated to the coordinator within this ticket. Workers never merge."
 note="$note Read $CONTEXT/docs/agents/agent-costs.md before implementation. This fallback uses CLI defaults: report effective model/effort when observable, otherwise unknown; do not claim they were pinned."
 if [ "$resume" -eq 1 ]; then
   note="$note This is a resumed run: the branch already holds earlier work. Read the ticket's newest comments first and continue from there."
