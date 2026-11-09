@@ -4,6 +4,11 @@
 set -euo pipefail
 
 repo=${1:?repo}; n=${2:?ticket}; agent=${3:-claude}
+case $agent in
+  claude) model_col=3 ;;
+  codex) model_col=4 ;;
+  *) echo "unknown agent: $agent" >&2; exit 1 ;;
+esac
 case $repo in
   stock-flow-api) other=stock-flow-web ;;
   stock-flow-web) other=stock-flow-api ;;
@@ -13,6 +18,12 @@ esac
 # Absolute paths the worker can open from its worktree, in the form its tools expect.
 native() { if command -v cygpath >/dev/null; then cygpath -w "$1"; else printf '%s\n' "$1"; fi; }
 here=$(cd "$(dirname "$0")/.." && pwd)
+review_model=$(awk -F'|' -v col="$model_col" '$2 ~ /^[[:space:]]*standard[[:space:]]*$/ { print $col; exit }' "$here/docs/workflow.md" | tr -d ' `\r')
+[ -n "$review_model" ] || { echo "standard review model missing from docs/workflow.md" >&2; exit 1; }
+review_settings="Use fresh review context and $review_model / medium where supported; report unsupported controls."
+if [ "$agent" = codex ]; then
+  review_settings="For Codex set fork_turns=\"none\", model=\"$review_model\", reasoning_effort=\"medium\" explicitly."
+fi
 record=$(native "$here")
 sibling=$(native "${here%/*}/$other")
 
@@ -28,8 +39,10 @@ You work ticket thawatchaiUdjan/$repo#$n. Follow *Working a dispatched ticket* i
 - Paths: the record (stock-flow-context) is at $record. The other implementing repo is at $sibling. Never use ../ paths to reach them.
 - Decisions: the record is under ADR 0005 (autopilot), so the requirements owner's decisions are delegated to the coordinator. A question you would put to the coordinator still goes on the ticket first, then through \`orca orchestration ask\`.
 - Sub-agents: this task asks for them. Run \`code-review\` with its two sub-agents (Standards and Spec), and start no others. In the pull request's Review section, write the line \`code-review: two sub-agents (Standards, Spec)\`, then the findings. The coordinator does not merge a pull request without that line.
-- Before the pull request: rebase on origin/main, then run the repo's full CI command set and make it pass. The coordinator merges on a green pipeline, with no human review.
-- Tokens: find code with \`grep -n\` and read line ranges, not whole large files; read each file once; look at a screenshot once, at the smallest width that shows the point; batch related commands into one call.
+- Review context: start each reviewer fresh. $review_settings Give reviewers the task, acceptance criteria/record links, base/head commits, changed files and relevant standards. They read the diff and necessary source. Follow-up review covers the changed diff and previous findings.
+- Validation: rebase on origin/main, then pass the implementing repo's required local checks on the final head. Respect its local-fast / CI-only split. Run focused checks while editing; repeat final checks after code/base/dependency changes or a failure. Required remote checks must be green before the coordinator merges.
+- Context: read targeted fields/file ranges; batch independent reads. Return counts/results for successful checks and detailed logs for failures. Read the cost policy at $record/docs/agents/agent-costs.md for measurement and escalation.
+- Evidence: report effective worker/reviewer model and effort, check results, rework/rebase rounds and available per-thread usage (input, cached input, output, reasoning, requests) on the PR. Missing usage is unknown with a reason, never zero; retain raw transcripts locally.
 - Chat: nobody reads this chat. Write no summaries or explanations in it, and work in English. What matters goes on the ticket, the pull request and \`worker_done\`.
 - When done, report \`worker_done\` with the pull request's link.
 EOF

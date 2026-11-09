@@ -15,6 +15,8 @@ On top of the `to-tickets` issue template (What to build, Acceptance criteria, B
 
 ```md
 Model: standard | deep
+Effort: medium | high
+Reason: <why this tier and effort fit the work>
 
 ## Record
 - Spec: <owner>/stock-flow-context#<n>
@@ -33,6 +35,8 @@ The reasoning behind each rule the implementer could otherwise "simplify" away.
 - **Relay the reasoning.** An implementer who knows *why* a value is stored but not validated will not quietly add the validation back.
 - **Name the model tier.** `Model: deep` only for a ticket whose hard part is reasoning rather than typing: a rule that must hold under concurrency or inside one transaction (stock deducted by two orders at once), or authentication and sessions. Everything else is `Model: standard`, a screen with many states included: on 2026-11-07 a deep worker cost about three times a standard one for the same size of ticket. The tier maps to a model per agent in `docs/workflow.md`, *Models*; never name a model here.
 - **Name who authorised the work.** Write *"the requirements owner has authorised…"*, never *"Authorised to build…"* as though the authority were yours. The implementer cannot otherwise tell a human decision from an agent that talked itself into one. Under ADR 0005, write *"Authorised by the requirements owner's delegation in stock-flow-context ADR 0005, <date>. Decided and relayed by the stock-flow-context agent."*
+
+For dispatched feature tickets, use the [workflow defaults](../workflow.md#models) and [cost policy](agent-costs.md) to choose effort and give the reason. Record a high-effort escalation on the ticket before relaunch. Older tickets missing `Effort:` use the documented default, recorded before launch.
 
 ## Stack tickets
 

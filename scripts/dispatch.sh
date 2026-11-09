@@ -157,6 +157,7 @@ for other in "${REPOS[@]}"; do
   readonly_rules+=("Edit(/$WORKSPACE/$other/**)")
 done
 note="You were dispatched by $(basename "$CONTEXT") to work ticket #$ticket. Follow 'Working a dispatched ticket' in AGENTS.md. In this worktree, read the record at $CONTEXT and the sibling repos at their absolute paths:$siblings never at ../ paths."
+note="$note Read $CONTEXT/docs/agents/agent-costs.md before implementation. This fallback uses CLI defaults: report effective model/effort when observable, otherwise unknown; do not claim they were pinned."
 if [ "$resume" -eq 1 ]; then
   note="$note This is a resumed run: the branch already holds earlier work. Read the ticket's newest comments first and continue from there."
 fi
