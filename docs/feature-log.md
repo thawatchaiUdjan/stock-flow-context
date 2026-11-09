@@ -4,7 +4,7 @@ When each feature started and finished, so "how long did X take?" has an answer 
 
 | Feature | Started | Done | Days | Links |
 | --- | --- | --- | --- | --- |
-| Navigation & lists: project icon, home link, navigation bar and pagination | 2026-11-09 | | | Requirements owner's design request; [rules](requirements/navigation-and-lists.md) |
+| Navigation & lists: project icon, home link, navigation bar and pagination | 2026-11-09 | | | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/22), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/23) |
 | Users & access: login, roles, access by role | 2026-11-06 | 2026-11-06 | 1 | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/3), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/4) |
 | Products: the product list and form | 2026-11-07 | 2026-11-07 | 1 | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/10), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/11) |
 | Stock movements: receive, adjust, history | 2026-11-07 | 2026-11-07 | 1 | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/10), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/12) |
