@@ -21,6 +21,12 @@ Short on time? These five carry the most weight; the rest can wait.
 - [ ] [Model tiers](agents/directing-work.md#what-every-ticket-carries): `deep` only for concurrency, transactions, and authentication; every web screen is `standard`.
 - [ ] [Dispatch](../.agents/skills/dispatch/SKILL.md#autopilot): up to two workers per repo at once, when their tickets build different screens or endpoints.
 
+## Navigation & lists (2026-11-09)
+
+- [ ] [Navigation & lists R3](requirements/navigation-and-lists.md): interpret the requested navigation bar as a responsive top bar with current-page context and parent-list links, alongside the existing main navigation.
+- [ ] [Navigation & lists R4-R6](requirements/navigation-and-lists.md): always-visible paging, 10/25/50 rows (25 default) for counted lists; retain cursor paging for histories. Page Users in the web app using the complete API response.
+- [ ] [Navigation & lists R7](requirements/navigation-and-lists.md): page the daily sales table at 25 rows, retaining full-range chart and totals; keep bounded Top products and Dashboard summaries intact. No API changes needed.
+
 ## Products
 
 - [ ] [Products](requirements/products.md), every rule. The ones most worth a look:
