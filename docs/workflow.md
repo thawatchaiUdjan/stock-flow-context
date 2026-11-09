@@ -79,26 +79,27 @@ A ticket names a tier, never a model: `Model: standard` or `Model: deep` ([direc
 | --- | --- | --- |
 | deep | `claude-opus-5-5` | `gpt-6-astra` |
 | standard | `claude-sonnet-5-5` | `gpt-6.1-sol` |
+| presentation | `claude-sonnet-5-5` | `gpt-6.1-terra` |
 | light | `claude-haiku-5-5` | `gpt-6-luna` |
 
 | Step | Route · effort |
 | --- | --- |
 | `/grill-with-docs`, `/to-spec`, "plan the design" | deep · high |
 | `/to-tickets` | deep · medium |
-| Draft settled record text or PR descriptions; add Figma frames; standalone visual audit | presentation · medium (Codex trial below) |
+| Draft settled record text or PR descriptions; add Figma frames; visual audit, including a UI implementation's audit phase | presentation · medium |
 | Extract, format or summarise fixed-source information | light · high |
 | Session B, the coordinator | standard · low |
 | Worker on a `Model: standard` ticket | standard · medium |
 | Worker on a `Model: deep` ticket | deep · high |
 | `code-review`'s sub-agents, a fix ticket for a red pipeline | standard · medium |
 
-### Codex presentation trial
+### Presentation work
 
-For the next three eligible tasks, use `gpt-6.1-terra` at medium effort for writing from confirmed decisions or a standalone screenshot/design/browser audit. This is a role-specific trial, not an implementation ticket tier. Claude keeps standard/medium for these tasks. Use Terra/low only for a short rewrite with explicit acceptance criteria; record the reason. Keep requirement decisions, design direction, implementation and both required code reviewers on the tiers above. A worker's visual checks remain part of its implementation; this trial does not add an audit agent to each ticket.
+Use the presentation route immediately for writing from confirmed decisions and screenshot/design/browser audits. It is a role, not an implementation ticket tier. Use low effort only for a short rewrite with explicit acceptance criteria; record the reason. Requirement decisions, new design direction, implementation and both required code reviewers retain their assigned routes.
 
-Follow the [trial register and evaluation](agents/agent-costs.md#terra-trial) before selecting a trial task. After three tasks, use standard/medium for this role until the recorded evaluation decides whether to adopt Terra. Availability and usable effort controls must be verified in the client; the official [model guidance](https://learn.chatgpt.com/docs/models) identifies Terra with writing, visual understanding and computer use. Codex CLI requires version 0.159.0 or later for Terra.
+For Codex UI implementation, route the visual-audit phase to a bounded presentation/medium auditor using the [presentation policy](agents/agent-costs.md#presentation-routing). This applies inside implementation tasks as well as standalone audits; the implementation worker fixes its findings. Use normal task evidence to measure outcomes. There is no trial quota, reservation register or adoption gate. Availability and usable effort controls must be verified in the client; the official [model guidance](https://learn.chatgpt.com/docs/models) identifies Terra with writing, visual understanding and computer use. Codex CLI requires version 0.159.0 or later for Terra.
 
-Pin model and effort for workers and trial sessions. Interactive sessions may use an automatic picker outside these roles; report actual settings when measuring them.
+Pin model and effort for workers and presentation sessions. Interactive sessions may use an automatic picker outside these roles; report actual settings when measuring them.
 
 Tickets specify `Effort:` and a short reason as well as `Model:`. High effort needs a concrete invariant, unresolved ambiguity or failed medium-effort approach. Verify effective settings in the launch receipt. The [agent cost policy](agents/agent-costs.md) covers fresh reviewer context, coordinator handoff, shared-file concurrency, validation and usage measurement. These controls apply to dispatched work; unverified headless settings are reported as unknown.
 

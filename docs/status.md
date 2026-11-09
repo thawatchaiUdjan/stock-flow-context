@@ -23,7 +23,7 @@ UI repair (2026-11-09): completed in [web PR #42](https://github.com/thawatchaiU
 
 Workflow: [ADR 0008](adr/0008-choose-workflow-per-task.md) requires a mode choice before each new task (Autopilot default, or Approval workflow) and removes the review queue. Unresolved findings remain in [security notes](security-notes.md).
 
-Workflow: [agent cost policy](agents/agent-costs.md) initially confirmed under ADR 0005 and refined on 2026-11-09 through the owner's task-scoped Autopilot selection under ADR 0008. Coordinator handoff verifies standard/low settings; implementation and fresh reviewers retain standard/medium. The [Codex presentation trial](workflow.md#codex-presentation-trial) assigns the next three eligible standalone writing/visual-audit tasks to Terra, with slots and evaluation in the cost policy. Trial results are pending; savings are not yet established. Worker prompts also cover affected CI-only UI expectations and bounded context reads. Product module implementation status is unchanged.
+Workflow: [agent cost policy](agents/agent-costs.md) initially confirmed under ADR 0005 and refined on 2026-11-09 through the owner's task-scoped Autopilot selection under ADR 0008. [Presentation routing](workflow.md#presentation-work) now uses Terra immediately for settled-source writing and visual audits, including the visual-audit phase of Codex UI implementation; the three-task trial and adoption gate are removed. Coordinator remains standard/low; implementation and both independent code reviewers keep their assigned routes. Task PRs record actual auditor settings, findings, usage and any explicit fallback. Savings are not yet established. Product module implementation status is unchanged.
 
 Kept deliberately small:
 
