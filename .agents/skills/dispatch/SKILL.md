@@ -12,7 +12,7 @@ The issue tracker is the record of what happened: every question, answer and pul
 
 Workers are started through **Orca orchestration**. Load its guide once (`orca skills get orchestration`) before the first `worker-start`. Without Orca, use the fallback at the end.
 
-Before starting workers, verify this session's effective standard/low settings using the [coordinator handoff](../../../docs/agents/agent-costs.md#coordinator-handoff). A differently configured session delivers that handoff and stops coordinating. Report unsupported/unverifiable controls as capability gaps. Read the [agent cost policy](../../../docs/agents/agent-costs.md) for fresh review context, trial scope and usage reporting; implementation tickets retain their standard/deep routing.
+Before starting workers, verify this session's effective standard/low settings using the [coordinator handoff](../../../docs/agents/agent-costs.md#coordinator-handoff). A differently configured session delivers that handoff and stops coordinating. Report unsupported/unverifiable controls as capability gaps. Read the [agent cost policy](../../../docs/agents/agent-costs.md) for fresh code-review context, immediate presentation routing and usage reporting; implementation tickets retain their standard/deep routing.
 
 Before dispatching, recover the task's selected work mode, scope and owner authorisation from the handoff or ticket. For a new task or a missing selection, follow [Choose the work mode](../../../docs/workflow.md#choose-the-work-mode) and wait for the answer. Workers inherit this choice.
 
@@ -41,6 +41,7 @@ orca orchestration worker-start --worktree new-top-level --repo id:<repoId> --na
 
 - `<repoId>` from `orca repo list --json`. Resolve the ticket's tier through `docs/workflow.md`, *Models*, and pass its approved `Effort:` explicitly. Verify requested versus effective settings in the receipt; report unsupported/unapplied controls.
 - The spec file comes from `scripts/worker-spec.sh <repo> <n> <claude|codex> <autopilot|approval>`, which prints its path. Never write it by hand: it carries what every worker needs, the absolute paths, permission for `code-review`'s two sub-agents (Orca's preamble forbids sub-agents unless the task asks), the review line the merge checks for, and the rules that keep a worker's tokens down.
+- For Codex UI work, the generated web brief also routes visual audit to the presentation model immediately. Carry this in the ticket/launch scope; if the worker cannot nest the auditor, launch that bounded auditor at the implementation checkout/head yourself. Before merge, check actual model/effort, screen coverage and resolved findings, or the explicit fallback reason, under the [presentation policy](../../../docs/agents/agent-costs.md#presentation-routing). Nonvisual work needs only a not-applicable reason. Standards and Spec remain independent standard/medium code reviews.
 - If `worker-start` fails, don't rerun it: read `failedStage` and follow Orca's recovery reference.
 
 Then report in one table: each candidate, *started* or *waiting*, and for each waiting one the reason (which blocker is open, which check failed). Checks that failed are the user's to fix; don't work around them. **End your turn**: Orca wakes you.

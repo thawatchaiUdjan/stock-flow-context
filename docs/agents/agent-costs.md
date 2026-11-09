@@ -1,6 +1,6 @@
 # Agent workflow cost
 
-Policy for dispatched work, initially settled on 2026-11-09 under [ADR 0005](../adr/0005-autopilot.md), with the presentation trial and handoff refinements authorised by the owner's task-scoped Autopilot selection under [ADR 0008](../adr/0008-choose-workflow-per-task.md) on the same date. Model IDs and effort defaults live in [Workflow: Models](../workflow.md#models). Product requirements and the green-pipeline merge gate remain unchanged.
+Policy for dispatched work, initially settled on 2026-11-09 under [ADR 0005](../adr/0005-autopilot.md), with immediate presentation routing and handoff refinements authorised by the owner's task-scoped Autopilot selection under [ADR 0008](../adr/0008-choose-workflow-per-task.md) on the same date. Model IDs and effort defaults live in [Workflow: Models](../workflow.md#models). Product requirements and the green-pipeline merge gate remain unchanged.
 
 ## Decisions
 
@@ -9,12 +9,12 @@ The requirements owner's request to reduce workflow cost has the following settl
 | Decision | Choice | Trade-off |
 | --- | --- | --- |
 | Target | Lower measured task cost, retaining required checks and two independent reviewers | Raw token totals alone do not measure cost or quality |
-| Model/effort | Keep implementation tiers; trial presentation routing separately; standard workers medium, coordinator low, reviewers medium | Escalate for demonstrated difficulty; measure the trial before adoption |
+| Model/effort | Keep implementation tiers; presentation uses the workflow route immediately; standard workers medium, coordinator low, reviewers medium | Measure real tasks and escalate for demonstrated difficulty |
 | Review context | Fresh context, explicit settings and a self-contained brief | Reviewers read relevant source rather than inherit the implementation narrative |
 | Concurrency | Parallel same-repo work only when expected shared-file changes are independent too | Sequencing coupled changes costs elapsed time but reduces rework |
 | Validation | Repo-prescribed local checks on the final head; required remote checks green before merge | Slow/real-service checks stay in CI where the repo requires them |
 | Measurement | Deduplicated per-response usage; unknown remains unknown | Counts are observations, not invoices or promised savings |
-| Scope | Generated dispatched tasks for both implementing repos, coordinator handoffs and the standalone Codex presentation trial | Manual implementation sessions keep their repo policy; upstream installed skills are not patched |
+| Scope | Generated dispatched tasks for both implementing repos, coordinator handoffs and presentation work, including Codex UI audit phases | Manual implementation sessions keep their repo policy; upstream installed skills are not patched |
 
 ## Applying the policy
 
@@ -40,21 +40,19 @@ orca agent launch --agent <agent> --worktree path:<absolute-context-repo-path> -
 
 Include the launch receipt in the handoff. Check requested versus effective settings; if the receipt does not expose them, session B checks its observable session metadata before starting workers. A launch request alone is not verification. Session A stops coordination after delivery; session B owns subsequent actions. At `/dispatch` entry, a session with different settings hands off before starting workers. If settings cannot be verified or applied, report the capability gap and actual/unknown settings on the task; do not claim compliance. Without a supported launcher, provide the handoff for a separately started standard/low session instead of silently coordinating at high effort.
 
-## Terra trial
+## Presentation routing
 
-Use the workflow's presentation model/effort for the next three eligible standalone tasks after this policy merges. Reserve the next empty slot below in the task's record PR, linking its scope and acceptance criteria; tasks already running when this policy merges are excluded. An eligible task writes from confirmed sources or audits screenshots/browser behavior against an existing design. Requirement discovery, new design direction, implementation and required code review are excluded. Run the task in its own session with explicit settings, using its repo's normal branch, checks and approval rules. Follow existing delegation rules; this policy does not itself authorise extra sub-agents. Trial slots count tasks, not turns or reviewers.
+The requirements owner replaced the three-task experiment with immediate use on 2026-11-09. The workflow table is the source for model IDs. Use presentation/medium for settled-source writing and visual audits; use the normal PR and task evidence, with no trial slots or adoption approval. Requirement discovery and new design decisions retain the definition route. Code changes and the two independent code reviews retain their assigned routes.
 
-| Slot | Task / PR | Effective model / effort | Outcome and measurement |
-| --- | --- | --- | --- |
-| 1 | Unassigned | Pending | Pending |
-| 2 | Unassigned | Pending | Pending |
-| 3 | Unassigned | Pending | Pending |
+For a Codex UI implementation ticket, the implementation worker delegates the visual-audit phase to one presentation/medium auditor after the UI is runnable. This auditor supplements Standards and Spec; it does not replace either. Its brief includes the confirmed design/requirements, acceptance criteria, exact head, app URL or local run instructions, viewport/role/state coverage and artifact locations. The auditor checks screenshots and rendered behavior, reports actionable findings and evidence, and leaves implementation edits to the worker. The worker fixes findings and obtains follow-up on affected screens before reporting completion. Relevant UI changes after audit require renewed coverage.
 
-Update the reserved row through a record PR when the task finishes, linking the detailed evidence on its own PR. Report elapsed time (including waits), requests, input/cached/uncached input, output/reasoning, available context sizes, review findings, correction rounds and acceptance-check results. Include fallback model usage in the task total. Missing data stays unknown with a reason. A failed Terra attempt remains in its slot; if it cannot meet acceptance criteria after one correction round, or needs reasoning outside the trial scope, hand off to standard/medium and record why. An unavailable model is recorded as blocked and does not count as a completed trial; resume the slot when available.
+Use a fresh Codex auditor with explicit model, medium effort and `fork_turns="none"` where sub-agents are supported. Generated web-worker briefs authorise this bounded third agent. If nesting or browser access prevents the worker from running it, ask the root coordinator to launch the auditor at the same checkout/head and return its evidence; avoid an intermediate coordinator solely to relay launches. The worker may prepare the app and capture artifacts, but cannot present its own Sol inspection as a Terra audit. The coordinator checks audit evidence and actual model/effort before merging UI work. API-only or nonvisual changes report visual audit as not applicable with a reason. Claude retains its existing visual-validation process using the workflow's presentation route.
 
-After three completed attempts, evaluate all three in a record PR before assigning further presentation work to Terra. Compare with similar Sol work where evidence exists, accounting for scope, audit breadth, waits and rework. Adopt only if acceptance criteria and normal review gates pass without a recurring correctness issue, and measured time or usage improves enough to justify the trade-off. Mixed results may narrow the eligible role; insufficient evidence keeps standard/medium. Raw token totals are not subscription billing, and lower token prices alone do not prove lower task cost.
+Standalone presentation work runs directly in the selected presentation session. Draft PR text in the current presentation session when available; otherwise use one bounded drafting handoff with the confirmed facts. Batch related writing into that handoff rather than spawning a writer for every comment. Follow the existing task's mode, repo access and approval rules; presentation work authorises no unrelated agents or sibling edits.
 
-### Observation before the trial
+Record elapsed time, actual model/effort, requests, input/cached/uncached input, output/reasoning, available context sizes, findings, correction rounds and acceptance-check results in the normal task PR. Include auditor and fallback usage in task totals; missing data stays unknown with a reason. If the presentation model is unavailable, controls cannot be applied or the task remains incorrect after one correction round, record the reason and use standard/medium for that task. Scope requiring new rules returns to the definition route. Fallback is an explicit exception, not a silent default. Raw token totals are not subscription billing; no saving is assumed.
+
+### Reference observation
 
 The 2026-11-09 UI repair ([web PR #42](https://github.com/thawatchaiUdjan/stock-flow-web/pull/42)) used Sol/high for the defining/coordinating session and Sol/medium for the worker and two fresh reviewers. Deduplicated local usage through 10:35:30 UTC: 138 requests; 15,462,202 input, including 15,075,968 cached and 386,234 uncached; 63,162 output, including 17,522 reasoning. Worker input grew from 22,911 to 219,329 per request. The PR merged with green check/E2E/smoke after one review-fix and one CI-fix round. This is a whole-task observation, not an isolated visual-audit benchmark or evidence about Terra. Raw transcripts remain local.
 

@@ -38,6 +38,8 @@ The reasoning behind each rule the implementer could otherwise "simplify" away.
 
 For dispatched feature tickets, use the [workflow defaults](../workflow.md#models) and [cost policy](agent-costs.md) to choose effort and give the reason. Record a high-effort escalation on the ticket before relaunch. Older tickets missing `Effort:` use the documented default, recorded before launch.
 
+Codex web tickets that change UI also carry `Visual audit: presentation / medium`, with links to the confirmed design and required viewport/state coverage. This routes the audit phase under the [presentation policy](agent-costs.md#presentation-routing); it does not change the implementation's `Model:` tier or the two required code reviews. Generated worker briefs authorise the bounded presentation auditor, with the root coordinator launching it when nesting is unavailable.
+
 ## Stack tickets
 
 The one kind of ticket that carries no record rules: the technical decisions of *Before the first feature* (`docs/workflow.md`), one ticket per implementing repo. It is created without `ready-for-agent` and worked by hand, never dispatched. The web one is blocked by the api one.
