@@ -4,7 +4,7 @@ When each feature started and finished, so "how long did X take?" has an answer 
 
 | Feature | Started | Done | Days | Links |
 | --- | --- | --- | --- | --- |
-| Date controls: all date pickers, optional deselection and Reports defaults | 2026-11-09 | | | [Requirements](requirements/date-controls.md); owner-selected task-scoped Autopilot under ADR 0008; implementation pending |
+| Date controls: all date pickers, optional deselection and Reports defaults | 2026-11-09 | 2026-11-09 | 1 | [Requirements](requirements/date-controls.md); [Record PR #33](https://github.com/thawatchaiUdjan/stock-flow-context/pull/33); [Spec #34](https://github.com/thawatchaiUdjan/stock-flow-context/issues/34); [Web ticket #43](https://github.com/thawatchaiUdjan/stock-flow-web/issues/43); [Web PR #44](https://github.com/thawatchaiUdjan/stock-flow-web/pull/44); owner-selected task-scoped Autopilot under ADR 0008 |
 | Model routing: Terra presentation trial and verified low-effort coordination | 2026-11-09 | 2026-11-09 | 1 | [Model routing](workflow.md#models), [trial register and handoff policy](agents/agent-costs.md); owner-selected task-scoped Autopilot under ADR 0008; workflow setup complete, three trial outcomes pending |
 | UI repair: readable tables, paging audit, charts, dates and mobile navigation | 2026-11-09 | 2026-11-09 | 1 | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/28), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/29), [Web PR](https://github.com/thawatchaiUdjan/stock-flow-web/pull/42); owner-selected Autopilot |
 | Task-scoped work mode and removal of the review queue | 2026-11-09 | 2026-11-09 | 1 | [ADR 0008](adr/0008-choose-workflow-per-task.md); context-only workflow change, no implementing tickets |
