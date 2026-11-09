@@ -4,7 +4,7 @@ When each feature started and finished, so "how long did X take?" has an answer 
 
 | Feature | Started | Done | Days | Links |
 | --- | --- | --- | --- | --- |
-| UI repair: readable tables, paging audit, charts, dates and mobile navigation | 2026-11-09 | | | Autopilot selected by the requirements owner; implementation correction against existing rules and web design direction |
+| UI repair: readable tables, paging audit, charts, dates and mobile navigation | 2026-11-09 | 2026-11-09 | 1 | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/28), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/29), [Web PR](https://github.com/thawatchaiUdjan/stock-flow-web/pull/42); owner-selected Autopilot |
 | Task-scoped work mode and removal of the review queue | 2026-11-09 | 2026-11-09 | 1 | [ADR 0008](adr/0008-choose-workflow-per-task.md); context-only workflow change, no implementing tickets |
 | Agent workflow cost: effort, fresh reviews and usage measurement | 2026-11-09 | 2026-11-09 | 1 | [Policy](agents/agent-costs.md); context-only workflow change, no implementing tickets |
 | Navigation & lists: project icon, home link, navigation bar and pagination | 2026-11-09 | 2026-11-09 | 1 | [Record PR](https://github.com/thawatchaiUdjan/stock-flow-context/pull/22), [Spec](https://github.com/thawatchaiUdjan/stock-flow-context/issues/23) |
