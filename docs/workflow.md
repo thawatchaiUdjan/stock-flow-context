@@ -34,7 +34,7 @@ For a task selected as Autopilot, the agent takes its own recommended answers, m
 
 The api contract for the whole feature is merged first, as one ticket, so subsequent api and web tickets can run in parallel ([issue-tracker](agents/issue-tracker.md#tickets-when-a-slice-crosses-repos)). `scripts/worker-spec.sh` writes each worker's prompt, `scripts/merge-pr.sh` requires a green pipeline and `code-review` evidence and proves the merge, and `scripts/ready-tickets.sh` lists what can start next.
 
-Once the spec and tickets are published, start the standard/low coordinator as in step 4, passing the selected mode, scope and authorisation in its prompt. It merges, starts workers and wakes when Orca wakes it. A question it cannot answer from the record goes back to a deep session.
+Once the spec and tickets are published, start the standard/low coordinator as in step 4, passing the selected mode, scope and authorisation in its prompt. Verify the effective model and effort before it dispatches; the defining session hands over and stops coordinating. It merges, starts workers and wakes when Orca wakes it. A question it cannot answer from the record goes back to a deep session.
 
 Stop for credentials, a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. Report blockers and excluded scope in the pull request and task summary. **Approval workflow** uses the owner questions and approval gates below.
 
@@ -50,7 +50,7 @@ After choosing the work mode, a feature runs in two sessions here, plus the work
 | 2 | "open the record PR" | **Review and merge it** ✋: merging confirms the record | Sets each settled module to `Status: Confirmed` and each new ADR to `Accepted`, runs `scripts/check-links.sh`, updates [status](status.md), opens the pull request with its template filled | 2b or 3 |
 | 2b | Optional, when the feature's screens are drawn in Figma: export them, then in `stock-flow-web` "add the frames for <feature>" | **Review and merge it** ✋ | Adds each frame to *Screens* in `stock-flow-web`'s `docs/design.md`, so the spec and web tickets can name it | 3 |
 | 3 | `/to-spec` | Confirm the proposed test seams | Writes the spec as an issue in this repo, then goes straight on to step 4 | 4 |
-| 4 | Nothing | **Approve the breakdown** ✋, which authorises the build | Runs `/to-tickets`: proposes slices, then publishes one ticket per repo per slice, each with its `Model:` line. Then starts session B: `orca agent launch --agent <agent> --worktree <this repo> --model <standard model> --effort low --prompt "/dispatch; Work mode: <autopilot|approval>; Scope: <task>; Authorised by: <owner selection>" --json` | 5 |
+| 4 | Nothing | **Approve the breakdown** ✋, which authorises the build | Runs `/to-tickets`: proposes slices, then publishes one ticket per repo per slice, each with its `Model:` line. Then starts session B using the [coordinator handoff](agents/agent-costs.md#coordinator-handoff), verifies its effective settings and stops coordinating in session A | 5 |
 
 **Session B: coordinate.** Started by session A in Orca, on the *standard* model at low effort. It runs [`dispatch`](../.agents/skills/dispatch/SKILL.md).
 
@@ -81,17 +81,24 @@ A ticket names a tier, never a model: `Model: standard` or `Model: deep` ([direc
 | standard | `claude-sonnet-5-5` | `gpt-6.1-sol` |
 | light | `claude-haiku-5-5` | `gpt-6-luna` |
 
-| Step | Tier · effort |
+| Step | Route · effort |
 | --- | --- |
 | `/grill-with-docs`, `/to-spec`, "plan the design" | deep · high |
 | `/to-tickets` | deep · medium |
-| Record PR, adding Figma frames | standard · medium |
+| Draft settled record text or PR descriptions; add Figma frames; standalone visual audit | presentation · medium (Codex trial below) |
+| Extract, format or summarise fixed-source information | light · high |
 | Session B, the coordinator | standard · low |
 | Worker on a `Model: standard` ticket | standard · medium |
 | Worker on a `Model: deep` ticket | deep · high |
 | `code-review`'s sub-agents, a fix ticket for a red pipeline | standard · medium |
 
-Pin the model for workers; a session you talk to yourself may use an automatic picker instead.
+### Codex presentation trial
+
+For the next three eligible tasks, use `gpt-6.1-terra` at medium effort for writing from confirmed decisions or a standalone screenshot/design/browser audit. This is a role-specific trial, not an implementation ticket tier. Claude keeps standard/medium for these tasks. Use Terra/low only for a short rewrite with explicit acceptance criteria; record the reason. Keep requirement decisions, design direction, implementation and both required code reviewers on the tiers above. A worker's visual checks remain part of its implementation; this trial does not add an audit agent to each ticket.
+
+Follow the [trial register and evaluation](agents/agent-costs.md#terra-trial) before selecting a trial task. After three tasks, use standard/medium for this role until the recorded evaluation decides whether to adopt Terra. Availability and usable effort controls must be verified in the client; the official [model guidance](https://learn.chatgpt.com/docs/models) identifies Terra with writing, visual understanding and computer use. Codex CLI requires version 0.159.0 or later for Terra.
+
+Pin model and effort for workers and trial sessions. Interactive sessions may use an automatic picker outside these roles; report actual settings when measuring them.
 
 Tickets specify `Effort:` and a short reason as well as `Model:`. High effort needs a concrete invariant, unresolved ambiguity or failed medium-effort approach. Verify effective settings in the launch receipt. The [agent cost policy](agents/agent-costs.md) covers fresh reviewer context, coordinator handoff, shared-file concurrency, validation and usage measurement. These controls apply to dispatched work; unverified headless settings are reported as unknown.
 
