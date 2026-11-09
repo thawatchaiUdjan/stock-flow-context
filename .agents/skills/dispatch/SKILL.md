@@ -12,7 +12,7 @@ The issue tracker is the record of what happened: every question, answer and pul
 
 Workers are started through **Orca orchestration**. Load its guide once (`orca skills get orchestration`) before the first `worker-start`. Without Orca, use the fallback at the end.
 
-Use a separate standard/low coordinator session, carrying links, dispatch IDs, blockers and the next action rather than the defining session's history. Read [agent cost policy](../../../docs/agents/agent-costs.md) for launch verification, fresh review context and usage reporting.
+Before starting workers, verify this session's effective standard/low settings using the [coordinator handoff](../../../docs/agents/agent-costs.md#coordinator-handoff). A differently configured session delivers that handoff and stops coordinating. Report unsupported/unverifiable controls as capability gaps. Read the [agent cost policy](../../../docs/agents/agent-costs.md) for fresh review context, trial scope and usage reporting; implementation tickets retain their standard/deep routing.
 
 Before dispatching, recover the task's selected work mode, scope and owner authorisation from the handoff or ticket. For a new task or a missing selection, follow [Choose the work mode](../../../docs/workflow.md#choose-the-work-mode) and wait for the answer. Workers inherit this choice.
 
