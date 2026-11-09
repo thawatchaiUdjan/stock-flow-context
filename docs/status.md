@@ -2,7 +2,7 @@
 
 Where each module stands across the three repos. Update it in the same pull request as the change that moved it.
 
-UI repair (2026-11-09): implementation audit in progress for table widths, list paging (including Login log), Dashboard chart colours, date controls and mobile navigation. Work mode: Autopilot, explicitly selected by the requirements owner for this task under ADR 0008. Existing business rules and API contracts remain the source; presentation decisions belong in the web repo's design direction. Navigation & lists R3-R7 and Dashboard & reports R1, R4-R8 apply. Completion evidence will be linked here when the web ticket closes.
+UI repair (2026-11-09): completed in [web PR #42](https://github.com/thawatchaiUdjan/stock-flow-web/pull/42), under the owner's explicit task-scoped Autopilot selection (ADR 0008). Stock movements columns and notes are readable; mobile navigation uses an opaque in-flow grid; date controls show readable day/default guidance and Bangkok Today/Clear actions. The full-list audit verified existing paging, including Login log, and repaired Reports paging in no-sales/loading/error states. Dashboard and Reports already resolved the correct shared chart colours, verified in the browser. [Audit and screenshots](https://github.com/thawatchaiUdjan/stock-flow-web/blob/main/docs/audits/ticket-41.md) cover 375/768/1024/1440 px and all roles. Existing business rules, summary bounds, report date defaults and API contracts are unchanged. [Spec #29](https://github.com/thawatchaiUdjan/stock-flow-context/issues/29).
 
 | Module | Requirements | API | Web | Notes |
 | --- | --- | --- | --- | --- |
