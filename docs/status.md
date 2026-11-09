@@ -2,6 +2,8 @@
 
 Where each module stands across the three repos. Update it in the same pull request as the change that moved it.
 
+Date-picker research (2026-11-09): [empty states and alternatives to Today/Clear](research/2026-11-09-date-picker-empty-state.md) records primary-source findings and a proposed presentation for all From/To controls. The owner selected task-scoped Autopilot under ADR 0008 for research documentation. This is research only; the web design direction and implementation have not changed. No requirement or module status changes.
+
 UI repair (2026-11-09): completed in [web PR #42](https://github.com/thawatchaiUdjan/stock-flow-web/pull/42), under the owner's explicit task-scoped Autopilot selection (ADR 0008). Stock movements columns and notes are readable; mobile navigation uses an opaque in-flow grid; date controls show readable day/default guidance and Bangkok Today/Clear actions. The full-list audit verified existing paging, including Login log, and repaired Reports paging in no-sales/loading/error states. Dashboard and Reports already resolved the correct shared chart colours, verified in the browser. [Audit and screenshots](https://github.com/thawatchaiUdjan/stock-flow-web/blob/main/docs/audits/ticket-41.md) cover 375/768/1024/1440 px and all roles. Existing business rules, summary bounds, report date defaults and API contracts are unchanged. [Spec #29](https://github.com/thawatchaiUdjan/stock-flow-context/issues/29).
 
 | Module | Requirements | API | Web | Notes |
