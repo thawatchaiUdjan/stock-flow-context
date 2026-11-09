@@ -2,7 +2,7 @@
 
 Where each module stands across the three repos. Update it in the same pull request as the change that moved it.
 
-Date-picker implementation (2026-11-09): [Date controls](requirements/date-controls.md) adopts the PR #32 proposal under the owner-selected Autopilot scope for all date pickers. Optional bounds use selected-day deselection; Reports shows effective defaults beside the controls without adding them to the address. Web implementation is pending; existing API contracts suffice.
+Date-picker implementation (2026-11-09): [Date controls](requirements/date-controls.md) adopts the PR #32 proposal under the owner-selected Autopilot scope for all date pickers. Optional bounds use selected-day deselection; Reports shows effective defaults beside the controls without adding them to the address. Completed in [web PR #44](https://github.com/thawatchaiUdjan/stock-flow-web/pull/44), closing [ticket #43](https://github.com/thawatchaiUdjan/stock-flow-web/issues/43) for [spec #34](https://github.com/thawatchaiUdjan/stock-flow-context/issues/34), following [record PR #33](https://github.com/thawatchaiUdjan/stock-flow-context/pull/33). Both independent reviews passed after fixes; required check, E2E and smoke jobs were green before the prescribed merge script proved MERGED. Existing API contracts suffice.
 
 Historical date-picker research (2026-11-09): [empty states and alternatives to Today/Clear](research/2026-11-09-date-picker-empty-state.md) records primary-source findings and a proposed presentation for all From/To controls. The owner selected task-scoped Autopilot under ADR 0008 for research documentation. This is research only; the web design direction and implementation have not changed. No requirement or module status changes.
 
@@ -10,7 +10,7 @@ UI repair (2026-11-09): completed in [web PR #42](https://github.com/thawatchaiU
 
 | Module | Requirements | API | Web | Notes |
 | --- | --- | --- | --- | --- |
-| [Date controls](requirements/date-controls.md) | Confirmed | Done (existing contracts) | Not started | All date pickers; web design direction and implementation to follow. |
+| [Date controls](requirements/date-controls.md) | Confirmed | Done (existing contracts) | Done | All four pickers and web design direction completed in [web PR #44](https://github.com/thawatchaiUdjan/stock-flow-web/pull/44); [spec #34](https://github.com/thawatchaiUdjan/stock-flow-context/issues/34). |
 | [Navigation & lists](requirements/navigation-and-lists.md) | Confirmed | Done (existing contracts) | Done | [Spec #23](https://github.com/thawatchaiUdjan/stock-flow-context/issues/23); [branding/navigation PR](https://github.com/thawatchaiUdjan/stock-flow-web/pull/39) and [pagination PR](https://github.com/thawatchaiUdjan/stock-flow-web/pull/40) merged on green pipelines. |
 | [Users & access](requirements/users-and-access.md) | Amended | Done | Done | Security review 2026-11-08: login throttling and the password minimum are open questions there. Two concurrency findings, reasoned but not reproduced, are listed in [stock-flow-api#19](https://github.com/thawatchaiUdjan/stock-flow-api/pull/19): a possible deadlock between Update User or Reset password and Log out, and overlapping logins starving a password set. Ticket them if seen. |
 | [Products](requirements/products.md) | Confirmed | Done | Done | Decided by the agent under [ADR 0005](adr/0005-autopilot.md). Review follow-up done: [api#30](https://github.com/thawatchaiUdjan/stock-flow-api/issues/30) (blank names in any script). |
