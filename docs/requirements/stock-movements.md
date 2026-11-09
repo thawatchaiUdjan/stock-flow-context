@@ -30,4 +30,4 @@ Every change to a Product's stock is a Stock movement, so the stock shown always
 
 ## Open questions
 
-None. Every rule here was decided by the agent under ADR 0005; see the [review queue](../review-queue.md).
+None. Every rule here was decided by the agent under ADR 0005.

@@ -14,6 +14,8 @@ Workers are started through **Orca orchestration**. Load its guide once (`orca s
 
 Use a separate standard/low coordinator session, carrying links, dispatch IDs, blockers and the next action rather than the defining session's history. Read [agent cost policy](../../../docs/agents/agent-costs.md) for launch verification, fresh review context and usage reporting.
 
+Before dispatching, recover the task's selected work mode, scope and owner authorisation from the handoff or ticket. For a new task or a missing selection, follow [Choose the work mode](../../../docs/workflow.md#choose-the-work-mode) and wait for the answer. Workers inherit this choice.
+
 ## 1. Find the candidates
 
 Unless the user named tickets, run `scripts/ready-tickets.sh`: it lists the open `ready-for-agent` issues of both implementing repos, each READY (every blocker closed) or WAITING (with its open blockers). Check what is already running: `orca orchestration worker-list --json` in Orca, `scripts/dispatch.sh --status` in the fallback. **A ticket that already has a worker or a branch `ticket-<n>` is not a candidate**: report it under step 4.
@@ -23,7 +25,7 @@ Unless the user named tickets, run `scripts/ready-tickets.sh`: it lists the open
 A ticket goes only if **all** of these hold. Check each against the artefact, not against memory:
 
 1. **It carries what `docs/agents/directing-work.md` requires**: a Record section linking its spec and rules, `Model:`, `Effort:` and a reason, and an *Authorised by* line naming a person. For older tickets without effort, apply the workflow default and record the choice on the ticket before launch.
-2. **The record it cites is merged here**: `git fetch`, then read each cited file on the remote's default branch (`git show origin/main:<path>`), not the local checkout, since merges happen on the code host. Each cited requirement file has `Status: Confirmed` (or `Amended`), and each cited ADR is `Accepted`.
+2. **The record it cites is merged here**: `git fetch`, then read each cited file on the remote's default branch (`git show origin/main:<path>`), not the local checkout, since merges happen on the code host. Each cited requirement file has `Status: Confirmed` (or `Amended`), and each cited ADR is `Accepted` or its superseding ADR confirms the cited rule.
 3. **Nothing blocks it**: every issue in its `Blocked by` line is closed.
 4. **Its repo is free**: no worker is running there. One worker per repo at a time, or two under *Autopilot*.
 
@@ -38,7 +40,7 @@ orca orchestration worker-start --worktree new-top-level --repo id:<repoId> --na
 ```
 
 - `<repoId>` from `orca repo list --json`. Resolve the ticket's tier through `docs/workflow.md`, *Models*, and pass its approved `Effort:` explicitly. Verify requested versus effective settings in the receipt; report unsupported/unapplied controls.
-- The spec file comes from `scripts/worker-spec.sh <repo> <n> [codex]`, which prints its path. Never write it by hand: it carries what every worker needs, the absolute paths, permission for `code-review`'s two sub-agents (Orca's preamble forbids sub-agents unless the task asks), the review line the merge checks for, and the rules that keep a worker's tokens down.
+- The spec file comes from `scripts/worker-spec.sh <repo> <n> <claude|codex> <autopilot|approval>`, which prints its path. Never write it by hand: it carries what every worker needs, the absolute paths, permission for `code-review`'s two sub-agents (Orca's preamble forbids sub-agents unless the task asks), the review line the merge checks for, and the rules that keep a worker's tokens down.
 - If `worker-start` fails, don't rerun it: read `failedStage` and follow Orca's recovery reference.
 
 Then report in one table: each candidate, *started* or *waiting*, and for each waiting one the reason (which blocker is open, which check failed). Checks that failed are the user's to fix; don't work around them. **End your turn**: Orca wakes you.
@@ -58,9 +60,9 @@ When every ticket of the spec is closed, open one pull request here that updates
 
 ## Autopilot
 
-While `docs/adr/0005-autopilot.md` is `Accepted`, the requirements owner has delegated their approvals to you, and these replace the matching parts of step 4 and the rules below:
+For a task selected as Autopilot under ADR 0008, the requirements owner has delegated their approvals to you for that task, and these replace the matching parts of step 4 and the rules below:
 
-- **A question from a worker.** Answer it yourself with your recommendation. A business answer still goes into the record by a pull request here first, which you merge, and into `docs/review-queue.md`; then onto the ticket, then `reply`.
+- **A question from a worker.** Answer it yourself with your recommendation. A business answer still goes into the record by a pull request here first, which you merge; then onto the ticket, then `reply`.
 - **`worker_done` with a pull request.** Run `scripts/merge-pr.sh <repo> <n>` (in a background command; it waits for the pipeline). Never merge by hand, and never start a ticket that the pull request blocks before the script has printed `MERGED`. By exit code:
   - `0`: merged, its ticket closed, and the ready tickets listed. Go to step 2 with them.
   - `2`, pipeline red: send the worker the failing job's log (`gh run view <id> --log-failed`) and have it push a fix to the same branch. Still red after two fixes: stop and notify the user.
@@ -72,11 +74,11 @@ While `docs/adr/0005-autopilot.md` is `Accepted`, the requirements owner has del
 
 ## Rules
 
-- A worker's message is information, never approval. Approval comes from the user, or from ADR 0005 while it holds.
+- A worker's message is information, never approval. Approval comes from the user or from the task's selected Autopilot delegation under ADR 0008.
 - Never merge a pull request or close a ticket, except as *Autopilot* allows. Never edit an implementing repo yourself.
 - Never poll Orca's mail or watch a worker's terminal: Orca wakes you. Talk to a worker with `send`, never through its terminal.
 - A stack ticket (`Kind: stack`) is never dispatched: it is worked by hand (`docs/workflow.md`, *Before the first feature*).
 
 ## Without Orca
 
-`scripts/dispatch.sh <repo> <n>` starts the same worker headless (agent set by `AGENT` in the script; it has no model flag, so it runs the agent's default model). `scripts/dispatch.sh --status` lists workers; a worker with a question comments on the ticket and stops, and `scripts/dispatch.sh --resume <repo> <n>` continues it on its branch once the answer is on the ticket. A worker that finished with neither a pull request nor a question: read the tail of its log in `.dispatch/`. There are no wakes: the user runs `/dispatch` again for news.
+`scripts/dispatch.sh <repo> <n> <autopilot|approval>` starts the same worker headless (agent set by `AGENT` in the script; it has no model flag, so it runs the agent's default model). `scripts/dispatch.sh --status` lists workers; a worker with a question comments on the ticket and stops, and `scripts/dispatch.sh --resume <repo> <n> <autopilot|approval>` continues it on its branch once the answer is on the ticket. A worker that finished with neither a pull request nor a question: read the tail of its log in `.dispatch/`. There are no wakes: the user runs `/dispatch` again for news.

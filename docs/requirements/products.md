@@ -35,4 +35,4 @@ The Owner and Admins keep the list of what the Shop sells. Everyone in the Shop 
 
 ## Open questions
 
-None. Every rule here was decided by the agent under ADR 0005; see the [review queue](../review-queue.md).
+None. Every rule here was decided by the agent under ADR 0005.

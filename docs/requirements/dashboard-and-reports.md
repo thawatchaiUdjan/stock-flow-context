@@ -27,4 +27,4 @@ The Owner and Admins see at a glance how sales are going and what needs restocki
 
 ## Open questions
 
-None. Every rule here was decided by the agent under ADR 0005; see the [review queue](../review-queue.md).
+None. Every rule here was decided by the agent under ADR 0005.

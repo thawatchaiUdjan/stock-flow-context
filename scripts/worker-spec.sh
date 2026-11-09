@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 # Writes the spec file for one dispatched worker and prints its path, for `orca orchestration worker-start --spec-file`.
-# usage: scripts/worker-spec.sh <stock-flow-api|stock-flow-web> <ticket> [claude|codex]
+# usage: scripts/worker-spec.sh <stock-flow-api|stock-flow-web> <ticket> <claude|codex> <autopilot|approval>
 set -euo pipefail
 
-repo=${1:?repo}; n=${2:?ticket}; agent=${3:-claude}
+repo=${1:?repo}; n=${2:?ticket}; agent=${3:-claude}; mode=${4:?selected work mode required: autopilot or approval}
+case $mode in
+  autopilot) decisions="The owner selected Autopilot for this task under ADR 0008; decisions are delegated to the coordinator within the ticket scope." ;;
+  approval) decisions="The owner selected Approval workflow for this task under ADR 0008; the coordinator must obtain owner approval at the workflow gates." ;;
+  *) echo "unknown work mode: $mode" >&2; exit 2 ;;
+esac
 case $agent in
   claude) model_col=3 ;;
   codex) model_col=4 ;;
@@ -37,7 +42,7 @@ $cmd #$n
 You work ticket thawatchaiUdjan/$repo#$n. Follow *Working a dispatched ticket* in this repo's AGENTS.md.
 
 - Paths: the record (stock-flow-context) is at $record. The other implementing repo is at $sibling. Never use ../ paths to reach them.
-- Decisions: the record is under ADR 0005 (autopilot), so the requirements owner's decisions are delegated to the coordinator. A question you would put to the coordinator still goes on the ticket first, then through \`orca orchestration ask\`.
+- Decisions: $decisions Work mode: $mode. Inherit this selection; do not ask the owner to select again. A question you would put to the coordinator still goes on the ticket first, then through \`orca orchestration ask\`.
 - Sub-agents: this task asks for them. Run \`code-review\` with its two sub-agents (Standards and Spec), and start no others. In the pull request's Review section, write the line \`code-review: two sub-agents (Standards, Spec)\`, then the findings. The coordinator does not merge a pull request without that line.
 - Review context: start each reviewer fresh. $review_settings Give reviewers the task, acceptance criteria/record links, base/head commits, changed files and relevant standards. They read the diff and necessary source. Follow-up review covers the changed diff and previous findings.
 - Validation: rebase on origin/main, then pass the implementing repo's required local checks on the final head. Respect its local-fast / CI-only split. Run focused checks while editing; repeat final checks after code/base/dependency changes or a failure. Required remote checks must be green before the coordinator merges.

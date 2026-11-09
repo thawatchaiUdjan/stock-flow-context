@@ -4,7 +4,7 @@
 
 ## Decided by
 
-<!-- For each decision: the requirements owner, or a dev within what the owner left to devs. Name them. -->
+<!-- For each decision: the requirements owner, or a dev within what the owner left to devs. Name them. Include the selected work mode, scope and owner selection; cite ADR 0008 for Autopilot delegation. -->
 
 ## Open questions
 

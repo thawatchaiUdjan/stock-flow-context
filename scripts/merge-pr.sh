@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Autopilot (ADR 0005): merge one implementation pull request once it may be merged, prove that it
+# Autopilot (task selected under ADR 0008): merge one implementation pull request once it may be merged, prove that it
 # merged, close its ticket, then list the tickets that are now ready.
 # usage: scripts/merge-pr.sh <stock-flow-api|stock-flow-web> <pr>
 # exit:  0 merged · 2 pipeline red · 3 code-review evidence missing · 4 not merged (conflict, or merge refused)

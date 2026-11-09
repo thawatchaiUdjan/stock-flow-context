@@ -20,19 +20,27 @@ Stack tickets are worked by hand, not dispatched: a worker may run only the comm
 
 What you said the system must support is input to the stack, not yet a requirement: carry it into the first feature's grill, where it becomes rules.
 
-## Autopilot (ADR 0005)
+## Choose the work mode
 
-While [ADR 0005](adr/0005-autopilot.md) is `Accepted`, nobody waits at the ✋ gates below. You type one line here, e.g. "build the remaining modules on autopilot"; the agent grills itself with its own recommended answers, merges the record pull request, publishes the spec and tickets, coordinates the workers and merges each pull request once its pipeline is green. It lists every decision it made for you in the [review queue](review-queue.md); review from there whenever you like, and change any decision with `/grill-with-docs`.
+Before work on a new task starts, the agent asks: **"Use Autopilot (default), or Approval workflow?"** It waits for the requirements owner's answer; the default is the recommended/preselected choice, not permission to proceed without an answer. Naming a mode in the request selects it directly. Read-only questions need no selection.
 
-Two things make it fast. The api's contract for the whole feature is merged first, as one ticket, so every api and web ticket after it runs in parallel ([issue-tracker](agents/issue-tracker.md#tickets-when-a-slice-crosses-repos)). And the coordinator works through scripts, not by hand: `scripts/worker-spec.sh` writes each worker's prompt, `scripts/merge-pr.sh` merges a pull request only with a green pipeline and `code-review`'s evidence and proves the merge, and `scripts/ready-tickets.sh` lists what can start next.
+The choice lasts for the whole task, across sessions, tickets and workers. Continuations inherit it; a new task gets a new question. Include `Work mode: autopilot` or `Work mode: approval`, the task scope and the owner's selection in ticket authorisation and coordinator/worker handoffs. If a resumed session cannot find the choice, ask before further work. The owner can switch modes explicitly during a task; apply the new mode to remaining work.
 
-Coordinating is cheap work, so it does not run on the deep model. Once the spec and tickets are published, the session that wrote them starts the coordinator as in step 4 (`orca agent launch ... --model <standard model> --effort low --prompt "/dispatch"`) and ends. The coordinator merges, starts workers, and wakes only when Orca wakes it. A question it cannot answer from the record goes back to a deep session.
+[ADR 0008](adr/0008-choose-workflow-per-task.md) supersedes the standing delegation in ADR 0005. Decisions live in requirements, ADRs and pull requests; there is no separate review queue or review checklist to maintain.
 
-It stops for you only for a step that needs your credentials or a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. To return to the gated flow below, supersede ADR 0005.
+## Autopilot
+
+For a task selected as Autopilot, the agent takes its own recommended answers, merges the record pull request, publishes the spec and tickets, coordinates workers and merges each implementation pull request after the required reviews and a green pipeline. Keep each module to the smallest version that does its job. Change a confirmed decision with `/grill-with-docs`.
+
+The api contract for the whole feature is merged first, as one ticket, so subsequent api and web tickets can run in parallel ([issue-tracker](agents/issue-tracker.md#tickets-when-a-slice-crosses-repos)). `scripts/worker-spec.sh` writes each worker's prompt, `scripts/merge-pr.sh` requires a green pipeline and `code-review` evidence and proves the merge, and `scripts/ready-tickets.sh` lists what can start next.
+
+Once the spec and tickets are published, start the standard/low coordinator as in step 4, passing the selected mode, scope and authorisation in its prompt. It merges, starts workers and wakes when Orca wakes it. A question it cannot answer from the record goes back to a deep session.
+
+Stop for credentials, a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. Report blockers and excluded scope in the pull request and task summary. **Approval workflow** uses the owner questions and approval gates below.
 
 ## Every feature
 
-A feature runs in two sessions here, plus the workers the second one starts. You type one command, `/grill-with-docs`; after that you answer questions and pass the three ✋ gates: the record, the breakdown, and each pull request.
+After choosing the work mode, a feature runs in two sessions here, plus the workers the second one starts. You type one command, `/grill-with-docs`; in Approval workflow you then answer questions and pass the three ✋ gates: the record, the breakdown, and each pull request.
 
 **Session A: define the work.** A session here on the *deep* model (see [Models](#models)), with you present.
 
@@ -42,7 +50,7 @@ A feature runs in two sessions here, plus the workers the second one starts. You
 | 2 | "open the record PR" | **Review and merge it** ✋: merging confirms the record | Sets each settled module to `Status: Confirmed` and each new ADR to `Accepted`, runs `scripts/check-links.sh`, updates [status](status.md), opens the pull request with its template filled | 2b or 3 |
 | 2b | Optional, when the feature's screens are drawn in Figma: export them, then in `stock-flow-web` "add the frames for <feature>" | **Review and merge it** ✋ | Adds each frame to *Screens* in `stock-flow-web`'s `docs/design.md`, so the spec and web tickets can name it | 3 |
 | 3 | `/to-spec` | Confirm the proposed test seams | Writes the spec as an issue in this repo, then goes straight on to step 4 | 4 |
-| 4 | Nothing | **Approve the breakdown** ✋, which authorises the build | Runs `/to-tickets`: proposes slices, then publishes one ticket per repo per slice, each with its `Model:` line. Then starts session B: `orca agent launch --agent <agent> --worktree <this repo> --model <standard model> --effort low --prompt "/dispatch" --json` | 5 |
+| 4 | Nothing | **Approve the breakdown** ✋, which authorises the build | Runs `/to-tickets`: proposes slices, then publishes one ticket per repo per slice, each with its `Model:` line. Then starts session B: `orca agent launch --agent <agent> --worktree <this repo> --model <standard model> --effort low --prompt "/dispatch; Work mode: <autopilot|approval>; Scope: <task>; Authorised by: <owner selection>" --json` | 5 |
 
 **Session B: coordinate.** Started by session A in Orca, on the *standard* model at low effort. It runs [`dispatch`](../.agents/skills/dispatch/SKILL.md).
 

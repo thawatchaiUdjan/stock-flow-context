@@ -38,14 +38,17 @@ Link to the sibling repos' docs; never copy them. A copy drifts from its source.
 - **The record leads.** A rule reaches an implementing repo only after its requirement or ADR is merged here. Directing that work: `docs/agents/directing-work.md`.
 - In prose, the person who decides requirements is the *requirements owner* (thawatchaiUdjan, project owner). A dev may decide within what the owner leaves to devs, and takes the rest to the owner.
 
-## Autopilot (ADR 0005)
+## Work mode (ADR 0008)
 
-While [ADR 0005](docs/adr/0005-autopilot.md) is `Accepted`, the requirements owner has delegated every decision to you, and it overrides the two rules above that send decisions to the owner:
+Before starting a new task, ask the requirements owner to choose **Autopilot (default)** or **Approval workflow**, and wait for the answer. An explicit mode in the request counts as the answer. Read-only questions do not need a mode selection. Keep the choice for the whole task, including resumed sessions and dispatched workers; ask again for a new task. Carry the mode and its scope in tickets and handoffs. See [Workflow: Choose the work mode](docs/workflow.md#choose-the-work-mode) and [ADR 0008](docs/adr/0008-choose-workflow-per-task.md).
 
-- Where you would ask the owner, take your own recommended answer and write it as a rule. Keep each module to the smallest version that does its job.
-- List every such decision in [`docs/review-queue.md`](docs/review-queue.md) in the same pull request, with a link to the rule or ADR.
-- Pass every ✋ gate in `docs/workflow.md` yourself: merge your own record pull requests here, publish specs and tickets without waiting, and, as the coordinator, merge each implementation pull request once its pipeline is green (`dispatch`, *Autopilot*).
-- Stop for the owner only for what a person must do: a step that needs the owner's credentials or a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. Leave anything that needs such a step out of scope, and say so in the review queue.
+In Autopilot, the requirements owner delegates decisions for that task, overriding the two authoring rules above that send decisions to the owner:
+
+- Take your own recommended answer and write it as a rule. Keep each module to the smallest version that does its job. Record decisions in requirements, ADRs and pull requests.
+- Pass every approval gate in `docs/workflow.md` yourself: merge record pull requests, publish specs and tickets, and, as coordinator, merge implementation pull requests after the required reviews and green pipeline (`dispatch`, *Autopilot*).
+- Stop for credentials, a third-party dashboard, a pipeline still red after two fixes, or a change that could lose stored data. Report the blocker and excluded scope in the pull request and task summary.
+
+In Approval workflow, follow the owner questions and approval gates in `docs/workflow.md`.
 
 ## Guiding the user
 
@@ -68,7 +71,7 @@ When asked to update or check the agent skills, update **all three repos**: run 
 - `docs/status.md` reflects the change, in the same pull request.
 - `docs/feature-log.md` has the feature's row: Started added when `/grill-with-docs` begins, Done when its last ticket closes.
 - `./scripts/check-links.sh` exits 0: every relative link resolves to a file that exists.
-- Every decision in it was made by the requirements owner, or by a dev within what the owner left to devs, or by the agent under ADR 0005 and listed in `docs/review-queue.md`. The pull request template says which.
+- Every decision in it was made by the requirements owner, or by a dev within what the owner left to devs, or by the agent within the task's Autopilot delegation under ADR 0008. The pull request template says which.
 
 ## Commits & pull requests
 
