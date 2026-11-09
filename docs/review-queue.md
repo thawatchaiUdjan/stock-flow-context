@@ -16,6 +16,8 @@ Short on time? These five carry the most weight; the rest can wait.
 
 ## Process
 
+- [ ] [Agent cost policy](agents/agent-costs.md), settled 2026-11-09: standard workers medium, coordinator low, explicit medium reviewers with fresh context; high effort justified per ticket. Sequence shared-file work, follow each repo's local/CI split, retain two reviews and the green-pipeline merge gate. Deduplicate usage and compare the next three standard tasks before claiming savings. This changes dispatched work only; manual sessions and unverified headless defaults are not claimed to be pinned.
+
 - [ ] [ADR 0005](adr/0005-autopilot.md): the agent decides, merges and answers workers' questions until the owner supersedes it.
 - [ ] [Contract first](agents/issue-tracker.md#tickets-when-a-slice-crosses-repos): under Autopilot, a feature's api operations are merged first, answering 501, so api and web tickets run in parallel. Until each slice lands, the deployed api answers 501 on its operations and the deployed web shows those screens' error state; acceptable while nothing is live.
 - [ ] [Model tiers](agents/directing-work.md#what-every-ticket-carries): `deep` only for concurrency, transactions, and authentication; every web screen is `standard`.

@@ -60,7 +60,7 @@ Along the way you also confirm the test seams (step 3) and give the go-ahead for
 Everything a session needs is in the record and the issue tracker, so a new session loses nothing. Start one when:
 
 - the step needs a different model (session A to session B does this for you);
-- you come back after a break of an hour or more: the prompt cache has expired, so the old session costs as much to resume as a new one;
+- you return after a long break and the previous working context is no longer useful; inspect recorded cache usage rather than assuming a fixed expiry;
 - the session has grown long: every turn re-sends all of it.
 
 ## Models
@@ -79,11 +79,13 @@ A ticket names a tier, never a model: `Model: standard` or `Model: deep` ([direc
 | `/to-tickets` | deep · medium |
 | Record PR, adding Figma frames | standard · medium |
 | Session B, the coordinator | standard · low |
-| Worker on a `Model: standard` ticket | standard · high |
+| Worker on a `Model: standard` ticket | standard · medium |
 | Worker on a `Model: deep` ticket | deep · high |
 | `code-review`'s sub-agents, a fix ticket for a red pipeline | standard · medium |
 
 Pin the model for workers; a session you talk to yourself may use an automatic picker instead.
+
+Tickets specify `Effort:` and a short reason as well as `Model:`. High effort needs a concrete invariant, unresolved ambiguity or failed medium-effort approach. Verify effective settings in the launch receipt. The [agent cost policy](agents/agent-costs.md) covers fresh reviewer context, coordinator handoff, shared-file concurrency, validation and usage measurement. These controls apply to dispatched work; unverified headless settings are reported as unknown.
 
 ## Sometimes
 

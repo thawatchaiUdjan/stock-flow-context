@@ -12,6 +12,8 @@ The issue tracker is the record of what happened: every question, answer and pul
 
 Workers are started through **Orca orchestration**. Load its guide once (`orca skills get orchestration`) before the first `worker-start`. Without Orca, use the fallback at the end.
 
+Use a separate standard/low coordinator session, carrying links, dispatch IDs, blockers and the next action rather than the defining session's history. Read [agent cost policy](../../../docs/agents/agent-costs.md) for launch verification, fresh review context and usage reporting.
+
 ## 1. Find the candidates
 
 Unless the user named tickets, run `scripts/ready-tickets.sh`: it lists the open `ready-for-agent` issues of both implementing repos, each READY (every blocker closed) or WAITING (with its open blockers). Check what is already running: `orca orchestration worker-list --json` in Orca, `scripts/dispatch.sh --status` in the fallback. **A ticket that already has a worker or a branch `ticket-<n>` is not a candidate**: report it under step 4.
@@ -20,7 +22,7 @@ Unless the user named tickets, run `scripts/ready-tickets.sh`: it lists the open
 
 A ticket goes only if **all** of these hold. Check each against the artefact, not against memory:
 
-1. **It carries what `docs/agents/directing-work.md` requires**: a Record section linking its spec and the rules it implements, a `Model:` line, and an *Authorised by* line naming a person.
+1. **It carries what `docs/agents/directing-work.md` requires**: a Record section linking its spec and rules, `Model:`, `Effort:` and a reason, and an *Authorised by* line naming a person. For older tickets without effort, apply the workflow default and record the choice on the ticket before launch.
 2. **The record it cites is merged here**: `git fetch`, then read each cited file on the remote's default branch (`git show origin/main:<path>`), not the local checkout, since merges happen on the code host. Each cited requirement file has `Status: Confirmed` (or `Amended`), and each cited ADR is `Accepted`.
 3. **Nothing blocks it**: every issue in its `Blocked by` line is closed.
 4. **Its repo is free**: no worker is running there. One worker per repo at a time, or two under *Autopilot*.
@@ -35,7 +37,7 @@ orca orchestration worker-start --worktree new-top-level --repo id:<repoId> --na
   --task-title "<repo>#<n> <ticket title>" --spec-file <file> --json
 ```
 
-- `<repoId>` from `orca repo list --json`. The agent, model and effort come from the ticket's `Model:` line through the table in `docs/workflow.md`, *Models*.
+- `<repoId>` from `orca repo list --json`. Resolve the ticket's tier through `docs/workflow.md`, *Models*, and pass its approved `Effort:` explicitly. Verify requested versus effective settings in the receipt; report unsupported/unapplied controls.
 - The spec file comes from `scripts/worker-spec.sh <repo> <n> [codex]`, which prints its path. Never write it by hand: it carries what every worker needs, the absolute paths, permission for `code-review`'s two sub-agents (Orca's preamble forbids sub-agents unless the task asks), the review line the merge checks for, and the rules that keep a worker's tokens down.
 - If `worker-start` fails, don't rerun it: read `failedStage` and follow Orca's recovery reference.
 
@@ -64,7 +66,7 @@ While `docs/adr/0005-autopilot.md` is `Accepted`, the requirements owner has del
   - `2`, pipeline red: send the worker the failing job's log (`gh run view <id> --log-failed`) and have it push a fix to the same branch. Still red after two fixes: stop and notify the user.
   - `3`, no `code-review` line in the Review section: have the worker run `code-review` with its two sub-agents and update the pull request.
   - `4`, not merged (a conflict with a pull request merged meanwhile): have the worker rebase on `origin/main` and push.
-- **Two workers in one repo.** Allowed when the two tickets build different screens or endpoints. The second to finish rebases if `merge-pr.sh` exits `4`.
+- **Two workers in one repo.** Allowed when the tickets build independent screens/endpoints and their expected shared-file changes (shell, routing, generated contract, design docs) are independent too. Sequence coupled work or combine it into one ticket. The second to finish rebases when main changes, then runs required checks on the new head.
 - **A blocker only a person can clear** (credentials, a third-party dashboard, a migration that could lose stored data): notify the user and carry on with the tickets it does not block.
 - **Notify the user** only for that, a pipeline still red after two fixes, a stopped worker you cannot steer on, and the feature done.
 

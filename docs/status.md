@@ -14,6 +14,8 @@ Where each module stands across the three repos. Update it in the same pull requ
 **Requirements:** `Draft` · `Confirmed` · `Amended`
 **API / Web:** `Not started` · `In progress` · `Done` · `Diverges` (built differently from the record; say how in Notes)
 
+Workflow: [agent cost policy](agents/agent-costs.md) confirmed under ADR 0005 on 2026-11-09. Standard workers default to medium; dispatched review briefs use fresh context. Measurement compares the next three tasks; savings are not yet established. Product module implementation status is unchanged.
+
 Kept deliberately small:
 
 - **Open questions are not copied here.** They live in each module's file; a copy drifts.
